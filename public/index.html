@@ -2,262 +2,673 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Watchlist</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Watchlist - Home Cinema</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0a0f;--bg2:#1a1a2e;--card:#1a1a2e;--accent:#e94560;--accent2:#f5a623;--glow:rgba(233,69,96,0.3);--txt:#e0e0e0;--txt2:#aaa;--muted:#666;--border:#333;--danger:#ff3333;--success:#22c55e;--r:12px}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
-header{background:linear-gradient(135deg,#1a1a2e,#16213e);backdrop-filter:blur(20px);padding:16px 32px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--accent)}
-.logo{display:flex;align-items:center;gap:10px}
-.logo h1{font-size:1.5rem;font-weight:800;background:linear-gradient(90deg,#e94560,#f5a623);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.header-actions{display:flex;gap:12px;align-items:center}
-.search-box{padding:10px 18px;border-radius:30px;border:1px solid var(--border);background:var(--bg2);color:var(--txt);width:240px;font-size:.85rem;font-family:inherit;transition:.3s}
-.search-box:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--glow)}
-.btn{padding:9px 20px;border-radius:30px;border:none;cursor:pointer;font-size:.85rem;font-weight:600;font-family:inherit;transition:.3s}
-.btn-login{background:transparent;color:var(--txt);border:1px solid var(--border)}
-.btn-login:hover{border-color:var(--accent);color:var(--accent)}
-.btn-subscribe{background:linear-gradient(135deg,#e94560,#c23152);color:#fff}
-.btn-subscribe:hover{transform:translateY(-1px);box-shadow:0 8px 25px var(--glow)}
-.btn-sm{padding:7px 16px;font-size:.8rem}
-.user-badge{display:flex;align-items:center;gap:8px;color:var(--txt2);font-size:.85rem}
-.user-badge .avatar{width:32px;height:32px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:#fff;font-weight:700}
-.sub-badge{background:var(--success);color:#fff;padding:2px 8px;border-radius:10px;font-size:.65rem;font-weight:600}
-.genre-tag{padding:8px 18px;border-radius:30px;background:var(--bg2);border:1px solid var(--border);color:var(--txt2);cursor:pointer;white-space:nowrap;font-size:.8rem;font-weight:500;font-family:inherit;transition:.2s}
-.genre-tag:hover{color:var(--txt);border-color:var(--muted)}
-.genre-tag.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-.section-title{font-size:1.2rem;font-weight:700;margin-bottom:20px}
-.movie-card{background:var(--card);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:.4s cubic-bezier(.25,.46,.45,.94);border:1px solid transparent;position:relative}
-.movie-card:hover{transform:scale(1.05);border-color:var(--accent);box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 30px var(--glow);z-index:10}
-.movie-card:hover .play-overlay{opacity:1}
-.movie-card:hover .movie-poster img{transform:scale(1.1)}
-.movie-poster{width:100%;height:260px;background:var(--bg2);position:relative;overflow:hidden}
-.movie-poster img{width:100%;height:100%;object-fit:cover;transition:.4s}
-.movie-poster .no-poster{display:flex;align-items:center;justify-content:center;height:100%;font-size:3rem;color:var(--muted)}
-.play-overlay{position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:.3s;flex-direction:column;gap:8px}
-.play-btn{padding:8px 16px;border-radius:20px;font-size:.75rem;font-weight:600;border:none;cursor:pointer;font-family:inherit}
-.play-trailer{background:rgba(255,255,255,.2);color:#fff;backdrop-filter:blur(4px)}
-.play-full{background:var(--accent);color:#fff}
-.movie-info{padding:14px}
-.movie-title{font-size:.9rem;font-weight:600;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.movie-meta{display:flex;justify-content:space-between;align-items:center}
-.movie-genre{background:rgba(233,69,96,.15);color:#e94560;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:500}
-.movie-year{color:var(--muted);font-size:.75rem}
-@media(max-width:768px){header{padding:12px 16px;flex-wrap:wrap;gap:10px}.header-actions{width:100%;flex-wrap:wrap;justify-content:center;gap:8px}.search-box{width:100%;order:3}#authArea{display:flex;gap:8px;order:2}.btn-sm{padding:8px 14px;font-size:.78rem}#heroBanner{height:280px;padding:20px 16px}#heroTitle{font-size:1.4rem!important}section{padding:16px!important}.movie-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))!important;gap:12px!important}.genre-filter{padding:12px 16px!important}}
+body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#fff;overflow-x:hidden}
+::-webkit-scrollbar{height:6px;width:6px}
+::-webkit-scrollbar-track{background:#1a1a2e}
+::-webkit-scrollbar-thumb{background:#e94560;border-radius:3px}
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:16px 40px;background:linear-gradient(180deg,rgba(10,10,15,.95),transparent);backdrop-filter:blur(10px);transition:background .3s}
+.nav.scrolled{background:rgba(10,10,15,.98)}
+.nav-left{display:flex;align-items:center;gap:16px}
+.logo{font-size:24px;font-weight:800;background:linear-gradient(135deg,#e94560,#f5a623);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.user-info{display:flex;align-items:center;gap:8px;font-size:14px}
+.pro-badge{background:linear-gradient(135deg,#f5a623,#e94560);padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700}
+.nav-right{display:flex;align-items:center;gap:16px}
+.search-box{position:relative}
+.search-box input{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:24px;padding:8px 16px 8px 36px;color:#fff;font-size:14px;width:200px;transition:width .3s}
+.search-box input:focus{width:280px;outline:none;border-color:#e94560}
+.search-box svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;fill:rgba(255,255,255,.5)}
+.nav-btn{background:none;border:1px solid rgba(255,255,255,.3);color:#fff;padding:8px 16px;border-radius:20px;cursor:pointer;font-size:13px;font-family:'Inter',sans-serif;transition:all .2s}
+.nav-btn:hover{border-color:#e94560;color:#e94560}
+.nav-btn.primary{background:linear-gradient(135deg,#e94560,#f5a623);border:none;color:#fff}
+.nav-btn.primary:hover{opacity:.9}
+.logout-btn{background:none;border:none;color:rgba(255,255,255,.6);cursor:pointer;font-size:13px;font-family:'Inter',sans-serif}
+.logout-btn:hover{color:#e94560}
+
+.hero{position:relative;height:85vh;min-height:500px;display:flex;align-items:flex-end;padding:0 40px 60px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:opacity 1s}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(0deg,#0a0a0f 0%,transparent 50%,rgba(10,10,15,.3) 100%)}
+.hero-pulse{position:absolute;inset:0;background:linear-gradient(135deg,rgba(233,69,96,.1),rgba(245,166,35,.05));animation:pulse 4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:.8}}
+.hero-content{position:relative;z-index:2;max-width:600px}
+.hero-content h1{font-size:48px;font-weight:800;margin-bottom:12px;text-shadow:0 2px 20px rgba(0,0,0,.5)}
+.hero-content p{font-size:16px;color:rgba(255,255,255,.8);margin-bottom:8px;line-height:1.5}
+.hero-meta{display:flex;align-items:center;gap:12px;margin-bottom:20px;font-size:13px;color:rgba(255,255,255,.6)}
+.hero-meta span{display:flex;align-items:center;gap:4px}
+.hero-buttons{display:flex;gap:12px;flex-wrap:wrap}
+.hero-btn{padding:12px 28px;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:transform .2s}
+.hero-btn:hover{transform:scale(1.05)}
+.hero-btn.trailer{background:rgba(255,255,255,.15);color:#fff;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.3)}
+.hero-btn.watch{background:linear-gradient(135deg,#e94560,#f5a623);color:#fff}
+.section{padding:30px 40px}
+.section-title{font-size:22px;font-weight:700;margin-bottom:16px}
+.genre-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;padding:10px 40px}
+.pill{padding:8px 18px;border-radius:20px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.8);cursor:pointer;font-size:13px;font-family:'Inter',sans-serif;transition:all .2s}
+.pill.active,.pill:hover{background:linear-gradient(135deg,#e94560,#f5a623);border-color:transparent;color:#fff}
+.row{display:flex;gap:16px;overflow-x:auto;padding-bottom:16px;scroll-behavior:smooth}
+.card{position:relative;min-width:200px;max-width:200px;border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .3s,box-shadow .3s;flex-shrink:0}
+.card:hover{transform:scale(1.05);box-shadow:0 8px 30px rgba(233,69,96,.3)}
+.card-img{width:100%;height:280px;object-fit:cover;display:block}
+.card-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.9) 0%,transparent 60%);opacity:0;transition:opacity .3s;display:flex;flex-direction:column;justify-content:flex-end;padding:12px}
+.card:hover .card-overlay{opacity:1}
+.card-title{font-size:13px;font-weight:600;margin-bottom:4px}
+.card-meta{font-size:11px;color:rgba(255,255,255,.6)}
+.card-duration{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.75);padding:3px 8px;border-radius:4px;font-size:11px;font-weight:500}
+.card-heart{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.5);border:none;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;z-index:5}
+.card-heart:hover,.card-heart.active{background:rgba(233,69,96,.8)}
+.card-heart svg{width:16px;height:16px;fill:#fff}
+.card-stars{display:flex;gap:2px;margin-top:4px}
+.card-stars svg{width:14px;height:14px;fill:rgba(255,255,255,.3);cursor:pointer;transition:fill .2s}
+.card-stars svg.filled{fill:#f5a623}
+.card-stars svg:hover,.card-stars svg:hover~svg{fill:#f5a623}
+.progress-bar{position:absolute;bottom:0;left:0;right:0;height:4px;background:rgba(255,255,255,.2)}
+.progress-fill{height:100%;background:linear-gradient(90deg,#e94560,#f5a623);border-radius:0 2px 2px 0}
+.card-video{position:absolute;inset:0;object-fit:cover;display:none;z-index:1}
+.card-video.playing{display:block}
+
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:2000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(5px)}
+.modal-backdrop.active{display:flex}
+.modal{background:#1a1a2e;border-radius:16px;max-width:700px;width:90%;max-height:85vh;overflow-y:auto;padding:32px;position:relative;animation:modalIn .3s}
+@keyframes modalIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:#fff;font-size:24px;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:background .2s}
+.modal-close:hover{background:rgba(255,255,255,.1)}
+.modal h2{font-size:28px;font-weight:700;margin-bottom:8px}
+.modal-meta{display:flex;gap:12px;font-size:13px;color:rgba(255,255,255,.6);margin-bottom:16px;flex-wrap:wrap}
+.modal-desc{font-size:14px;line-height:1.6;color:rgba(255,255,255,.8);margin-bottom:16px}
+.modal-cast{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:16px}
+.modal-cast strong{color:#fff}
+.modal-actions{display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+.modal-rating{display:flex;align-items:center;gap:8px;margin-bottom:20px}
+.modal-rating span{font-size:14px;color:rgba(255,255,255,.6)}
+.modal-rating svg{width:24px;height:24px;fill:rgba(255,255,255,.3);cursor:pointer;transition:fill .2s}
+.modal-rating svg.filled{fill:#f5a623}
+.modal-rating svg:hover,.modal-rating svg:hover~svg{fill:#f5a623}
+.comments-section{border-top:1px solid rgba(255,255,255,.1);padding-top:20px}
+.comments-section h3{font-size:16px;margin-bottom:12px}
+.comment-form{display:flex;gap:8px;margin-bottom:16px}
+.comment-form input{flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:10px 14px;color:#fff;font-size:13px;font-family:'Inter',sans-serif}
+.comment-form input:focus{outline:none;border-color:#e94560}
+.comment-form button{background:linear-gradient(135deg,#e94560,#f5a623);border:none;color:#fff;padding:10px 20px;border-radius:8px;cursor:pointer;font-family:'Inter',sans-serif;font-weight:600}
+.comment{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.comment-user{font-size:13px;font-weight:600;color:#f5a623}
+.comment-text{font-size:13px;color:rgba(255,255,255,.7);margin-top:4px}
+.auth-modal .modal{max-width:400px}
+.auth-tabs{display:flex;gap:0;margin-bottom:24px;border-bottom:1px solid rgba(255,255,255,.1)}
+.auth-tab{flex:1;padding:12px;text-align:center;cursor:pointer;font-size:14px;font-weight:500;color:rgba(255,255,255,.5);border-bottom:2px solid transparent;transition:all .2s}
+.auth-tab.active{color:#fff;border-color:#e94560}
+.auth-form{display:flex;flex-direction:column;gap:12px}
+.auth-form input{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:12px 16px;color:#fff;font-size:14px;font-family:'Inter',sans-serif}
+.auth-form input:focus{outline:none;border-color:#e94560}
+.auth-form button{background:linear-gradient(135deg,#e94560,#f5a623);border:none;color:#fff;padding:14px;border-radius:8px;cursor:pointer;font-size:15px;font-weight:600;font-family:'Inter',sans-serif;margin-top:8px}
+.subscribe-modal .modal{max-width:420px;text-align:center}
+.subscribe-modal .price{font-size:48px;font-weight:800;background:linear-gradient(135deg,#e94560,#f5a623);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:20px 0 8px}
+.subscribe-modal .period{font-size:14px;color:rgba(255,255,255,.6);margin-bottom:24px}
+.subscribe-modal .features{text-align:left;margin-bottom:24px}
+.subscribe-modal .features li{font-size:13px;color:rgba(255,255,255,.7);padding:6px 0;list-style:none}
+.subscribe-modal .features li::before{content:'✓';color:#f5a623;margin-right:8px;font-weight:700}
+.player-modal .modal{max-width:900px;padding:0;overflow:hidden}
+.player-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:rgba(0,0,0,.5)}
+.player-header h3{font-size:16px}
+.player-badge{padding:4px 10px;border-radius:4px;font-size:11px;font-weight:700}
+.player-badge.free{background:rgba(245,166,35,.2);color:#f5a623}
+.player-badge.full{background:rgba(233,69,96,.2);color:#e94560}
+.player-video{width:100%;aspect-ratio:16/9;background:#000}
+.empty-state{text-align:center;padding:40px;color:rgba(255,255,255,.4);font-size:14px}
+@media(max-width:768px){
+.nav{padding:12px 16px}
+.logo{font-size:18px}
+.search-box input{width:140px}
+.search-box input:focus{width:180px}
+.hero{height:60vh;padding:0 16px 40px}
+.hero-content h1{font-size:28px}
+.hero-content p{font-size:14px}
+.section{padding:20px 16px}
+.genre-pills{padding:10px 16px}
+.card{min-width:150px;max-width:150px}
+.card-img{height:210px}
+.modal{padding:20px;width:95%}
+.nav-right .nav-btn:not(.primary){display:none}
+}
 </style>
 </head>
 <body>
-<header>
-<div class="logo"><span>🎬</span><h1>Watchlist</h1><span id="welcomeArea" style="margin-left:16px"></span></div>
-<div class="header-actions">
-<input type="text" class="search-box" id="searchInput" placeholder="Search movies...">
-<div id="authArea"></div>
+<nav class="nav" id="navbar">
+<div class="nav-left">
+<div class="logo">WATCHLIST</div>
+<div class="user-info" id="userInfo" style="display:none">
+<span id="welcomeUser"></span>
+<span class="pro-badge" id="proBadge" style="display:none">PRO</span>
 </div>
-</header>
+</div>
+<div class="nav-right">
+<div class="search-box">
+<svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+<input type="text" id="searchInput" placeholder="Search movies...">
+</div>
+<button class="nav-btn primary" id="signInBtn" onclick="showAuth()">Sign In</button>
+<button class="logout-btn" id="logoutBtn" style="display:none" onclick="logout()">Logout</button>
+</div>
+</nav>
 
-<!-- Hero Banner -->
-<div id="heroBanner" style="position:relative;height:400px;background:linear-gradient(to bottom,transparent 60%,var(--bg)),url('') center/cover;display:flex;align-items:flex-end;padding:40px 32px">
-<div id="heroContent" style="max-width:600px">
-<h2 id="heroTitle" style="font-size:2.2rem;font-weight:800;margin-bottom:8px"></h2>
-<p id="heroDesc" style="color:var(--txt2);font-size:.9rem;margin-bottom:16px"></p>
-<div style="display:flex;gap:10px">
-<button id="heroTrailer" class="btn btn-subscribe" onclick="playHeroTrailer()">▶ Watch Trailer</button>
-<button id="heroWatch" class="btn btn-login" onclick="playHeroMovie()">🎬 Watch Now</button>
+<section class="hero" id="heroSection">
+<div class="hero-bg" id="heroBg"></div>
+<div class="hero-overlay"></div>
+<div class="hero-pulse"></div>
+<div class="hero-content">
+<h1 id="heroTitle"></h1>
+<p id="heroDesc"></p>
+<div class="hero-meta">
+<span id="heroYear"></span>
+<span id="heroDuration"></span>
+<span id="heroGenre"></span>
 </div>
+<div class="hero-buttons">
+<button class="hero-btn trailer" onclick="playTrailer(heroMovie)">▶ Watch Trailer</button>
+<button class="hero-btn watch" onclick="playMovie(heroMovie)">⬛ Watch Now</button>
 </div>
-</div>
-
-<!-- Genre Filter -->
-<div style="padding:16px 32px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none" id="genreFilter">
-<span class="genre-tag active" data-genre="all">All</span>
-<span class="genre-tag" data-genre="Action">Action</span>
-<span class="genre-tag" data-genre="Comedy">Comedy</span>
-<span class="genre-tag" data-genre="Drama">Drama</span>
-<span class="genre-tag" data-genre="Horror">Horror</span>
-<span class="genre-tag" data-genre="Sci-Fi">Sci-Fi</span>
-<span class="genre-tag" data-genre="Thriller">Thriller</span>
-<span class="genre-tag" data-genre="Romance">Romance</span>
-<span class="genre-tag" data-genre="Animation">Animation</span>
-</div>
-
-<!-- Movie Grid -->
-<section style="padding:24px 32px">
-<h2 class="section-title" id="sectionTitle">All Movies</h2>
-<div id="movieGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:20px"></div>
-<div id="emptyState" style="display:none;text-align:center;padding:80px 20px;color:var(--muted)">
-<div style="font-size:4rem;margin-bottom:16px">🎥</div>
-<h3 style="color:var(--txt2);margin-bottom:8px">No movies available</h3>
-<p style="font-size:.9rem">Check back later for new content!</p>
 </div>
 </section>
 
-<!-- Player Modal -->
-<div id="playerModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:1000;justify-content:center;align-items:center;flex-direction:column;backdrop-filter:blur(10px)">
-<div style="width:90%;max-width:1100px;position:relative">
-<button onclick="closePlayer()" style="position:absolute;top:-50px;right:0;background:var(--card);border:1px solid var(--border);color:#fff;font-size:1.2rem;cursor:pointer;padding:8px 14px;border-radius:10px">&times;</button>
-<video id="videoPlayer" controls style="width:100%;border-radius:var(--r);background:#000;max-height:70vh"></video>
-<div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center">
-<span id="playerTitle" style="font-size:1.2rem;font-weight:700"></span>
-<span id="playerBadge" style="font-size:.75rem;padding:4px 12px;border-radius:20px"></span>
-</div>
-</div>
-</div>
+<div class="genre-pills" id="genrePills"></div>
 
-<!-- Subscribe Modal -->
-<div id="subModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:1001;justify-content:center;align-items:center;backdrop-filter:blur(10px)">
-<div style="background:var(--bg2);padding:40px;border-radius:var(--r);width:90%;max-width:400px;border:1px solid var(--border);text-align:center">
-<div style="font-size:3rem;margin-bottom:16px">🔒</div>
-<h2 style="margin-bottom:8px;font-size:1.3rem">Subscribe to Watch</h2>
-<p style="color:var(--txt2);font-size:.9rem;margin-bottom:24px">Full movies are for subscribers only. Trailers are free!</p>
-<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:20px">
-<div style="font-size:1.8rem;font-weight:800;color:var(--accent)">R49<span style="font-size:.9rem;color:var(--txt2)">/month</span></div>
-<p style="color:var(--txt2);font-size:.8rem;margin-top:8px">Unlimited movies • Cancel anytime</p>
+<section class="section" id="continueSection" style="display:none">
+<h2 class="section-title">Continue Watching</h2>
+<div class="row" id="continueRow"></div>
+</section>
+
+<section class="section" id="favoritesSection" style="display:none">
+<h2 class="section-title">My List</h2>
+<div class="row" id="favoritesRow"></div>
+</section>
+
+<section class="section" id="trendingSection">
+<h2 class="section-title">🔥 Trending</h2>
+<div class="row" id="trendingRow"></div>
+</section>
+
+<section class="section" id="recentSection">
+<h2 class="section-title">Recently Added</h2>
+<div class="row" id="recentRow"></div>
+</section>
+
+<section class="section" id="allSection">
+<h2 class="section-title">All Movies</h2>
+<div class="row" id="allRow"></div>
+</section>
+
+<!-- Detail Modal -->
+<div class="modal-backdrop" id="detailModal">
+<div class="modal">
+<button class="modal-close" onclick="closeModal('detailModal')">&times;</button>
+<h2 id="modalTitle"></h2>
+<div class="modal-meta" id="modalMeta"></div>
+<p class="modal-desc" id="modalDesc"></p>
+<p class="modal-cast" id="modalCast"></p>
+<div class="modal-rating" id="modalRating"></div>
+<div class="modal-actions">
+<button class="hero-btn trailer" onclick="playTrailer(currentMovie)">▶ Trailer</button>
+<button class="hero-btn watch" onclick="playMovie(currentMovie)">⬛ Watch Now</button>
+<button class="nav-btn" onclick="shareMovie()">📋 Share</button>
 </div>
-<button class="btn btn-subscribe" style="width:100%;padding:14px" onclick="subscribe()">Subscribe Now</button>
-<button class="btn btn-login" style="width:100%;margin-top:10px;padding:14px" onclick="document.getElementById('subModal').style.display='none'">Maybe Later</button>
+<div class="comments-section">
+<h3>Reviews</h3>
+<div class="comment-form">
+<input type="text" id="commentInput" placeholder="Write a review...">
+<button onclick="postComment()">Post</button>
+</div>
+<div id="commentsContainer"></div>
+</div>
 </div>
 </div>
 
 <!-- Auth Modal -->
-<div id="authModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:1001;justify-content:center;align-items:center;backdrop-filter:blur(10px)">
-<div style="background:var(--bg2);padding:36px;border-radius:var(--r);width:90%;max-width:400px;border:1px solid var(--border)">
-<h2 id="authTitle" style="margin-bottom:20px;font-size:1.3rem">Sign In</h2>
-<div id="authUsername" style="margin-bottom:14px;display:none">
-<label style="display:block;margin-bottom:6px;font-size:.8rem;color:var(--txt2)">Username</label>
-<input type="text" id="inputUsername" placeholder="Your name" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--txt);font-size:.9rem;font-family:inherit">
+<div class="modal-backdrop auth-modal" id="authModal">
+<div class="modal">
+<button class="modal-close" onclick="closeModal('authModal')">&times;</button>
+<div class="auth-tabs">
+<div class="auth-tab active" onclick="switchAuthTab('login')">Sign In</div>
+<div class="auth-tab" onclick="switchAuthTab('register')">Register</div>
 </div>
-<div style="margin-bottom:14px">
-<label style="display:block;margin-bottom:6px;font-size:.8rem;color:var(--txt2)">Email</label>
-<input type="email" id="inputEmail" placeholder="email@example.com" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--txt);font-size:.9rem;font-family:inherit">
-</div>
-<div style="margin-bottom:20px">
-<label style="display:block;margin-bottom:6px;font-size:.8rem;color:var(--txt2)">Password</label>
-<input type="password" id="inputPassword" placeholder="••••••••" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--txt);font-size:.9rem;font-family:inherit">
-</div>
-<button class="btn btn-subscribe" style="width:100%;padding:12px" onclick="submitAuth()">Continue</button>
-<p style="text-align:center;margin-top:14px;font-size:.8rem;color:var(--txt2)">
-<span id="authToggle" style="color:var(--accent);cursor:pointer" onclick="toggleAuth()">Create an account</span>
-</p>
-<button class="btn btn-login" style="width:100%;margin-top:10px;padding:10px" onclick="document.getElementById('authModal').style.display='none'">Cancel</button>
+<form class="auth-form" id="loginForm" onsubmit="handleLogin(event)">
+<input type="email" id="loginEmail" placeholder="Email" required>
+<input type="password" id="loginPass" placeholder="Password" required>
+<button type="submit">Sign In</button>
+</form>
+<form class="auth-form" id="registerForm" style="display:none" onsubmit="handleRegister(event)">
+<input type="text" id="regUsername" placeholder="Username" required>
+<input type="email" id="regEmail" placeholder="Email" required>
+<input type="password" id="regPass" placeholder="Password" required>
+<button type="submit">Create Account</button>
+</form>
 </div>
 </div>
+
+<!-- Subscribe Modal -->
+<div class="modal-backdrop subscribe-modal" id="subscribeModal">
+<div class="modal">
+<button class="modal-close" onclick="closeModal('subscribeModal')">&times;</button>
+<h2>Go Premium</h2>
+<div class="price">R49</div>
+<div class="period">per month</div>
+<ul class="features">
+<li>Unlimited full movie streaming</li>
+<li>HD & 4K quality</li>
+<li>No ads, ever</li>
+<li>Early access to new releases</li>
+<li>Download for offline viewing</li>
+</ul>
+<button class="hero-btn watch" style="width:100%" onclick="subscribe()">Subscribe Now</button>
+</div>
+</div>
+
+<!-- Player Modal -->
+<div class="modal-backdrop player-modal" id="playerModal">
+<div class="modal">
+<div class="player-header">
+<h3 id="playerTitle"></h3>
+<span class="player-badge" id="playerBadge"></span>
+<button class="modal-close" onclick="closePlayer()" style="position:static">&times;</button>
+</div>
+<video class="player-video" id="playerVideo" controls></video>
+</div>
+</div>
+
 <script>
-let movies=[],currentMovie=null,currentFilter='all',currentUser=null,authMode='login';
+let movies=[],heroMovie=null,currentMovie=null,user=null,userProfile=null;
+const genres=['All','Action','Comedy','Drama','Horror','Sci-Fi','Thriller','Romance','Animation'];
+let activeGenre='All',hoverTimers={};
 
-// Load user from localStorage
-const saved=localStorage.getItem('watchlist_user');
-if(saved)currentUser=JSON.parse(saved);
+// Init
+async function init(){
+await fetchMovies();
+loadUser();
+renderGenrePills();
+renderHero();
+renderSections();
+setupSearch();
+setupNavScroll();
+}
 
-async function loadMovies(){try{const r=await fetch('/api/movies');movies=await r.json();renderMovies();renderHero()}catch(e){console.error(e)}}
+async function fetchMovies(){
+try{const r=await fetch('/api/movies');movies=await r.json()}catch(e){console.error(e)}
+}
+
+function loadUser(){
+const stored=localStorage.getItem('watchlist_user');
+if(stored){user=JSON.parse(stored);refreshProfile();updateUI()}
+}
+
+async function refreshProfile(){
+if(!user)return;
+try{const r=await fetch(`/api/users/${user.id}`);userProfile=await r.json();updateUI()}catch(e){}
+}
+
+function updateUI(){
+const info=document.getElementById('userInfo');
+const btn=document.getElementById('signInBtn');
+const logBtn=document.getElementById('logoutBtn');
+const badge=document.getElementById('proBadge');
+if(user){
+info.style.display='flex';
+document.getElementById('welcomeUser').textContent=`Welcome, ${user.username}`;
+btn.style.display='none';
+logBtn.style.display='block';
+if(user.subscribed||userProfile?.subscribed){badge.style.display='inline'}else{badge.style.display='none'}
+renderContinueWatching();
+renderFavorites();
+}else{
+info.style.display='none';btn.style.display='block';logBtn.style.display='none';badge.style.display='none';
+document.getElementById('continueSection').style.display='none';
+document.getElementById('favoritesSection').style.display='none';
+}
+}
 
 function renderHero(){
-const banner=document.getElementById('heroBanner');
-if(!movies.length){banner.style.display='none';return}
-banner.style.display='flex';
-const featured=movies[Math.floor(Math.random()*movies.length)];
-document.getElementById('heroTitle').textContent=featured.title;
-document.getElementById('heroDesc').textContent=featured.description||featured.genre+' • '+featured.year;
-if(featured.poster)banner.style.backgroundImage='linear-gradient(to bottom,transparent 40%,var(--bg)),url(/posters/'+featured.poster+')';
-banner.dataset.movieId=featured.id;
+if(!movies.length)return;
+heroMovie=movies[Math.floor(Math.random()*movies.length)];
+const bg=document.getElementById('heroBg');
+bg.style.backgroundImage=`url(/posters/${heroMovie.poster})`;
+document.getElementById('heroTitle').textContent=heroMovie.title;
+document.getElementById('heroDesc').textContent=heroMovie.description?.substring(0,150)+'...'||'';
+document.getElementById('heroYear').textContent=heroMovie.year||'';
+document.getElementById('heroDuration').textContent=formatDuration(heroMovie.duration);
+document.getElementById('heroGenre').textContent=heroMovie.genre||'';
 }
 
-function renderMovies(){
+function formatDuration(min){
+if(!min)return'';
+const h=Math.floor(min/60),m=min%60;
+return h>0?`${h}h ${m}m`:`${m}m`;
+}
+
+function renderGenrePills(){
+const c=document.getElementById('genrePills');
+c.innerHTML=genres.map(g=>`<button class="pill${g===activeGenre?' active':''}" onclick="filterGenre('${g}')">${g}</button>`).join('');
+}
+
+function filterGenre(g){
+activeGenre=g;renderGenrePills();renderSections();
+}
+
+function getFiltered(){
 let f=movies;
-if(currentFilter!=='all')f=f.filter(m=>m.genre===currentFilter);
+if(activeGenre!=='All')f=f.filter(m=>m.genre&&m.genre.toLowerCase()===activeGenre.toLowerCase());
 const q=document.getElementById('searchInput').value.toLowerCase();
-if(q)f=f.filter(m=>m.title.toLowerCase().includes(q));
-if(!f.length){document.getElementById('movieGrid').innerHTML='';document.getElementById('emptyState').style.display='block';return}
-document.getElementById('emptyState').style.display='none';
-document.getElementById('movieGrid').innerHTML=f.map(m=>`
-<div class="movie-card" data-id="${m.id}">
-<div class="movie-poster">
-${m.poster?`<img src="/posters/${m.poster}" alt="${m.title}">`:`<div class="no-poster">🎬</div>`}
-<div class="play-overlay">
-${m.trailer?`<button class="play-btn play-trailer" onclick="event.stopPropagation();playTrailer('${m.id}')">▶ Trailer</button>`:''}
-<button class="play-btn play-full" onclick="event.stopPropagation();playMovie('${m.id}')">🎬 Watch</button>
-</div>
-</div>
-<div class="movie-info">
-<div class="movie-title">${m.title}</div>
-<div class="movie-meta"><span class="movie-genre">${m.genre}</span><span class="movie-year">${m.year}</span></div>
-</div>
-</div>`).join('')}
-
-function playTrailer(id){
-const m=movies.find(x=>x.id===id);if(!m||!m.trailer)return showToast('No trailer available');
-document.getElementById('playerTitle').textContent=m.title+' — Trailer';
-document.getElementById('playerBadge').textContent='FREE';
-document.getElementById('playerBadge').style.background='var(--success)';
-document.getElementById('videoPlayer').src='/trailer/'+id;
-document.getElementById('playerModal').style.display='flex';
-document.body.style.overflow='hidden';
+if(q)f=f.filter(m=>m.title.toLowerCase().includes(q)||m.description?.toLowerCase().includes(q));
+return f;
 }
 
-function playMovie(id){
-if(!currentUser){document.getElementById('authModal').style.display='flex';return}
-if(!currentUser.subscribed){document.getElementById('subModal').style.display='flex';return}
-const m=movies.find(x=>x.id===id);if(!m)return;
+function renderSections(){
+const filtered=getFiltered();
+// Trending - top 5 by views
+const trending=[...filtered].sort((a,b)=>(b.views||0)-(a.views||0)).slice(0,5);
+document.getElementById('trendingRow').innerHTML=trending.map(m=>createCard(m)).join('');
+// Recent
+const recent=[...filtered].sort((a,b)=>new Date(b.uploadedAt||0)-new Date(a.uploadedAt||0)).slice(0,10);
+document.getElementById('recentRow').innerHTML=recent.map(m=>createCard(m)).join('');
+// All
+document.getElementById('allRow').innerHTML=filtered.map(m=>createCard(m)).join('');
+setupHoverPlay();
+}
+
+function renderContinueWatching(){
+if(!user||!userProfile)return;
+const wp=userProfile.watchProgress||[];
+if(!wp.length){document.getElementById('continueSection').style.display='none';return}
+document.getElementById('continueSection').style.display='block';
+const cards=wp.map(p=>{
+const m=movies.find(mv=>mv.id===p.movieId||mv.id==p.movieId);
+if(!m)return'';
+const pct=p.duration?Math.round((p.progress/p.duration)*100):0;
+return createCard(m,pct);
+}).filter(Boolean);
+document.getElementById('continueRow').innerHTML=cards.join('');
+setupHoverPlay();
+}
+
+function renderFavorites(){
+if(!user||!userProfile)return;
+const favs=userProfile.favorites||[];
+if(!favs.length){document.getElementById('favoritesSection').style.display='none';return}
+document.getElementById('favoritesSection').style.display='block';
+const cards=favs.map(fid=>{
+const m=movies.find(mv=>mv.id===fid||mv.id==fid);
+if(!m)return'';return createCard(m);
+}).filter(Boolean);
+document.getElementById('favoritesRow').innerHTML=cards.join('');
+setupHoverPlay();
+}
+
+function isFavorite(movieId){
+if(!userProfile||!userProfile.favorites)return false;
+return userProfile.favorites.includes(movieId)||userProfile.favorites.includes(String(movieId));
+}
+
+function getAvgRating(m){
+if(!m.ratings||!m.ratings.length)return 0;
+return m.ratings.reduce((a,b)=>a+(b.rating||b),0)/m.ratings.length;
+}
+
+function createCard(m,progressPct){
+const avg=getAvgRating(m);
+const fav=isFavorite(m.id);
+return`<div class="card" data-id="${m.id}" onclick="openDetail('${m.id}')">
+<img class="card-img" src="/posters/${m.poster}" alt="${m.title}" loading="lazy">
+<video class="card-video" muted loop data-trailer="/trailer/${m.id}"></video>
+<span class="card-duration">${formatDuration(m.duration)}</span>
+<button class="card-heart${fav?' active':''}" onclick="event.stopPropagation();toggleFav('${m.id}')">
+<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+</button>
+<div class="card-overlay">
+<div class="card-title">${m.title}</div>
+<div class="card-meta">${m.year||''} • ${m.genre||''}</div>
+<div class="card-stars">${renderStars(avg,m.id)}</div>
+</div>
+${progressPct!==undefined?`<div class="progress-bar"><div class="progress-fill" style="width:${progressPct}%"></div></div>`:''}
+</div>`;
+}
+
+function renderStars(avg,movieId){
+let s='';
+for(let i=1;i<=5;i++){
+s+=`<svg class="${i<=Math.round(avg)?'filled':''}" onclick="event.stopPropagation();rateMovie('${movieId}',${i})" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>`;
+}
+return s;
+}
+</script>
+
+<script>
+// Detail Modal
+function openDetail(id){
+const m=movies.find(mv=>mv.id==id||mv.id===id);
+if(!m)return;
+currentMovie=m;
+document.getElementById('modalTitle').textContent=m.title;
+document.getElementById('modalMeta').innerHTML=`<span>${m.year||''}</span><span>${formatDuration(m.duration)}</span><span>${m.genre||''}</span><span>⭐ ${getAvgRating(m).toFixed(1)}</span>`;
+document.getElementById('modalDesc').textContent=m.description||'';
+document.getElementById('modalCast').innerHTML=m.cast?`<strong>Cast:</strong> ${Array.isArray(m.cast)?m.cast.join(', '):m.cast}`:'';
+renderModalRating(m);
+renderComments(m);
+document.getElementById('detailModal').classList.add('active');
+}
+
+function renderModalRating(m){
+const avg=getAvgRating(m);
+const c=document.getElementById('modalRating');
+let html='<span>Rate: </span>';
+for(let i=1;i<=5;i++){
+html+=`<svg class="${i<=Math.round(avg)?'filled':''}" onclick="rateMovie('${m.id}',${i})" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>`;
+}
+html+=`<span>(${m.ratings?m.ratings.length:0} ratings)</span>`;
+c.innerHTML=html;
+}
+
+function renderComments(m){
+const c=document.getElementById('commentsContainer');
+const comments=m.comments||[];
+if(!comments.length){c.innerHTML='<p style="color:rgba(255,255,255,.4);font-size:13px">No reviews yet</p>';return}
+c.innerHTML=comments.map(cm=>`<div class="comment"><div class="comment-user">${cm.username||'Anonymous'}</div><div class="comment-text">${cm.text}</div></div>`).join('');
+}
+
+async function postComment(){
+if(!user){showAuth();return}
+const input=document.getElementById('commentInput');
+const text=input.value.trim();
+if(!text||!currentMovie)return;
+try{
+await fetch(`/api/movies/${currentMovie.id}/comment`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({userId:user.id,username:user.username,text})});
+if(!currentMovie.comments)currentMovie.comments=[];
+currentMovie.comments.push({userId:user.id,username:user.username,text});
+renderComments(currentMovie);
+input.value='';
+}catch(e){console.error(e)}
+}
+
+async function rateMovie(id,rating){
+if(!user){showAuth();return}
+try{
+await fetch(`/api/movies/${id}/rate`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({userId:user.id,rating})});
+const m=movies.find(mv=>mv.id==id);
+if(m){if(!m.ratings)m.ratings=[];m.ratings.push({userId:user.id,rating});
+if(currentMovie&&currentMovie.id==id)renderModalRating(m);
+renderSections();}
+}catch(e){console.error(e)}
+}
+
+async function toggleFav(id){
+if(!user){showAuth();return}
+try{
+await fetch(`/api/users/${user.id}/favorite`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({movieId:id})});
+if(!userProfile.favorites)userProfile.favorites=[];
+const idx=userProfile.favorites.indexOf(id);
+if(idx>-1)userProfile.favorites.splice(idx,1);else userProfile.favorites.push(id);
+renderSections();renderFavorites();
+}catch(e){console.error(e)}
+}
+
+function shareMovie(){
+if(!currentMovie)return;
+const url=`${window.location.origin}?movie=${currentMovie.id}`;
+navigator.clipboard.writeText(url).then(()=>{
+const btn=event.target;btn.textContent='✓ Copied!';
+setTimeout(()=>btn.textContent='📋 Share',2000);
+}).catch(()=>{});
+}
+
+// Player
+function playTrailer(m){
+if(!m)return;
+openPlayer(m,`/trailer/${m.id}`,'FREE TRAILER','free');
+}
+
+function playMovie(m){
+if(!m)return;
+if(!user){showAuth();return}
+if(!user.subscribed&&!userProfile?.subscribed){showSubscribe();return}
+openPlayer(m,`/stream/${m.id}`,'FULL MOVIE','full');
+trackView(m.id);
+}
+
+function openPlayer(m,src,badgeText,badgeClass){
 document.getElementById('playerTitle').textContent=m.title;
-document.getElementById('playerBadge').textContent='FULL MOVIE';
-document.getElementById('playerBadge').style.background='var(--accent)';
-document.getElementById('videoPlayer').src='/stream/'+id;
-document.getElementById('playerModal').style.display='flex';
-document.body.style.overflow='hidden';
+const badge=document.getElementById('playerBadge');
+badge.textContent=badgeText;
+badge.className=`player-badge ${badgeClass}`;
+const video=document.getElementById('playerVideo');
+video.src=src;
+video.play().catch(()=>{});
+document.getElementById('playerModal').classList.add('active');
+// Track progress
+video.ontimeupdate=()=>saveProgress(m.id,video.currentTime,video.duration);
+if(badgeClass==='full')trackView(m.id);
 }
 
-function playHeroTrailer(){const id=document.getElementById('heroBanner').dataset.movieId;playTrailer(id)}
-function playHeroMovie(){const id=document.getElementById('heroBanner').dataset.movieId;playMovie(id)}
+function closePlayer(){
+const video=document.getElementById('playerVideo');
+video.pause();video.src='';
+document.getElementById('playerModal').classList.remove('active');
+}
 
-function closePlayer(){document.getElementById('videoPlayer').pause();document.getElementById('videoPlayer').src='';document.getElementById('playerModal').style.display='none';document.body.style.overflow=''}
+async function saveProgress(movieId,progress,duration){
+if(!user||!progress)return;
+// Throttle: save every 5 seconds
+if(!saveProgress.last||Date.now()-saveProgress.last>5000){
+saveProgress.last=Date.now();
+try{
+await fetch(`/api/users/${user.id}/progress`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({movieId,progress:Math.floor(progress),duration:Math.floor(duration)})});
+}catch(e){}
+}
+}
+
+async function trackView(movieId){
+try{await fetch(`/api/movies/${movieId}/view`,{method:'POST'})}catch(e){}
+}
+
+// Auth
+function showAuth(){document.getElementById('authModal').classList.add('active')}
+function showSubscribe(){document.getElementById('subscribeModal').classList.add('active')}
+
+function switchAuthTab(tab){
+document.querySelectorAll('.auth-tab').forEach((t,i)=>{
+t.classList.toggle('active',i===(tab==='login'?0:1));
+});
+document.getElementById('loginForm').style.display=tab==='login'?'flex':'none';
+document.getElementById('registerForm').style.display=tab==='register'?'flex':'none';
+}
+
+async function handleLogin(e){
+e.preventDefault();
+const email=document.getElementById('loginEmail').value;
+const password=document.getElementById('loginPass').value;
+try{
+const r=await fetch('/api/users/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+const data=await r.json();
+if(r.ok){user=data;localStorage.setItem('watchlist_user',JSON.stringify(user));closeModal('authModal');await refreshProfile();updateUI()}
+else{alert(data.error||'Login failed')}
+}catch(e){alert('Login failed')}
+}
+
+async function handleRegister(e){
+e.preventDefault();
+const username=document.getElementById('regUsername').value;
+const email=document.getElementById('regEmail').value;
+const password=document.getElementById('regPass').value;
+try{
+const r=await fetch('/api/users/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username,email,password})});
+const data=await r.json();
+if(r.ok){user=data;localStorage.setItem('watchlist_user',JSON.stringify(user));closeModal('authModal');await refreshProfile();updateUI()}
+else{alert(data.error||'Registration failed')}
+}catch(e){alert('Registration failed')}
+}
 
 async function subscribe(){
-if(!currentUser){document.getElementById('subModal').style.display='none';document.getElementById('authModal').style.display='flex';return}
-try{const r=await fetch('/api/users/'+currentUser.id+'/subscribe',{method:'POST'});const u=await r.json();currentUser.subscribed=true;localStorage.setItem('watchlist_user',JSON.stringify(currentUser));document.getElementById('subModal').style.display='none';renderAuth();showToast('Subscribed! Enjoy unlimited movies 🎬')}catch(e){showToast('Failed to subscribe')}}
-
-function toggleAuth(){
-authMode=authMode==='login'?'register':'login';
-document.getElementById('authTitle').textContent=authMode==='login'?'Sign In':'Create Account';
-document.getElementById('authUsername').style.display=authMode==='register'?'block':'none';
-document.getElementById('authToggle').textContent=authMode==='login'?'Create an account':'Already have an account? Sign in';
+if(!user){showAuth();return}
+try{
+const r=await fetch(`/api/users/${user.id}/subscribe`,{method:'POST'});
+if(r.ok){user.subscribed=true;localStorage.setItem('watchlist_user',JSON.stringify(user));closeModal('subscribeModal');updateUI();alert('🎉 Welcome to Premium!')}
+}catch(e){alert('Subscription failed')}
 }
 
-async function submitAuth(){
-const email=document.getElementById('inputEmail').value;
-const password=document.getElementById('inputPassword').value;
-if(!email||!password)return showToast('Fill all fields');
-if(authMode==='register'){
-const username=document.getElementById('inputUsername').value;
-if(!username)return showToast('Enter a username');
-const r=await fetch('/api/users/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username,email,password})});
-if(!r.ok){const e=await r.json();return showToast(e.error)}
-const u=await r.json();currentUser=u;localStorage.setItem('watchlist_user',JSON.stringify(u));
-}else{
-const r=await fetch('/api/users/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
-if(!r.ok){const e=await r.json();return showToast(e.error)}
-const u=await r.json();currentUser=u;localStorage.setItem('watchlist_user',JSON.stringify(u));
-}
-document.getElementById('authModal').style.display='none';renderAuth();showToast('Welcome, '+currentUser.username+'!')
+function logout(){
+user=null;userProfile=null;
+localStorage.removeItem('watchlist_user');
+updateUI();renderSections();
 }
 
-function logout(){currentUser=null;localStorage.removeItem('watchlist_user');renderAuth();showToast('Logged out')}
+function closeModal(id){document.getElementById(id).classList.remove('active')}
 
-function renderAuth(){
-const area=document.getElementById('authArea');
-const welcome=document.getElementById('welcomeArea');
-if(!currentUser){welcome.innerHTML='';area.innerHTML='<button class="btn btn-login" onclick="document.getElementById(\'authModal\').style.display=\'flex\'">Sign In</button><button class="btn btn-subscribe btn-sm" onclick="document.getElementById(\'subModal\').style.display=\'flex\'">Subscribe</button>';return}
-welcome.innerHTML=`<div class="user-badge"><div class="avatar">${currentUser.username[0].toUpperCase()}</div><span>Welcome, ${currentUser.username}</span>${currentUser.subscribed?'<span class="sub-badge">PRO</span>':''}</div>`;
-area.innerHTML=`<button class="btn btn-login btn-sm" onclick="logout()">Logout</button>`;
+// Search
+function setupSearch(){
+document.getElementById('searchInput').addEventListener('input',()=>renderSections());
 }
 
-document.getElementById('genreFilter').onclick=e=>{if(e.target.classList.contains('genre-tag')){document.querySelectorAll('.genre-tag').forEach(t=>t.classList.remove('active'));e.target.classList.add('active');currentFilter=e.target.dataset.genre;document.getElementById('sectionTitle').textContent=currentFilter==='all'?'All Movies':currentFilter;renderMovies()}}
-document.getElementById('searchInput').oninput=renderMovies;
-document.onkeydown=e=>{if(e.key==='Escape'){closePlayer();document.getElementById('subModal').style.display='none';document.getElementById('authModal').style.display='none'}}
+// Nav scroll effect
+function setupNavScroll(){
+window.addEventListener('scroll',()=>{
+document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50);
+});
+}
 
-function showToast(msg){const t=document.createElement('div');t.style.cssText='position:fixed;bottom:30px;right:30px;padding:14px 24px;background:var(--card);border:1px solid var(--accent);border-radius:12px;color:#fff;font-size:.9rem;z-index:2000';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),3000)}
+// Auto-play trailer on hover (desktop only, 2s delay)
+function setupHoverPlay(){
+if(window.innerWidth<768)return;
+document.querySelectorAll('.card').forEach(card=>{
+const video=card.querySelector('.card-video');
+if(!video)return;
+card.addEventListener('mouseenter',()=>{
+const id=card.dataset.id;
+hoverTimers[id]=setTimeout(()=>{
+const src=video.dataset.trailer;
+if(src){video.src=src;video.classList.add('playing');video.play().catch(()=>{})}
+},2000);
+});
+card.addEventListener('mouseleave',()=>{
+const id=card.dataset.id;
+clearTimeout(hoverTimers[id]);
+video.pause();video.src='';video.classList.remove('playing');
+});
+});
+}
 
-renderAuth();loadMovies();
+// Close modals on backdrop click
+document.querySelectorAll('.modal-backdrop').forEach(bd=>{
+bd.addEventListener('click',e=>{if(e.target===bd){bd.classList.remove('active');
+if(bd.id==='playerModal')closePlayer();}});
+});
+
+// URL param for shared movie
+function checkSharedMovie(){
+const params=new URLSearchParams(window.location.search);
+const mid=params.get('movie');
+if(mid)setTimeout(()=>openDetail(mid),500);
+}
+
+// Start
+init().then(()=>checkSharedMovie());
 </script>
 </body>
 </html>
