@@ -46,9 +46,10 @@ body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#fff;overflow-x:hid
 .hero-btn.watch{background:linear-gradient(135deg,#e94560,#f5a623);color:#fff}
 .section{padding:30px 40px}
 .section-title{font-size:22px;font-weight:700;margin-bottom:16px}
-.genre-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;padding:10px 40px}
-.pill{padding:8px 18px;border-radius:20px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.8);cursor:pointer;font-size:13px;font-family:'Inter',sans-serif;transition:all .2s}
-.pill.active,.pill:hover{background:linear-gradient(135deg,#e94560,#f5a623);border-color:transparent;color:#fff}
+.genre-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;padding:10px 40px;align-items:center}
+.genre-select{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;padding:10px 20px;border-radius:24px;font-size:14px;font-family:'Inter',sans-serif;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='white' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;min-width:160px;transition:all .2s}
+.genre-select:focus{outline:none;border-color:#e94560}
+.genre-select option{background:#1a1a2e;color:#fff}
 .row{display:flex;gap:16px;overflow-x:auto;padding-bottom:16px;scroll-behavior:smooth}
 .card{position:relative;min-width:200px;max-width:200px;border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .3s,box-shadow .3s;flex-shrink:0}
 .card:hover{transform:scale(1.05);box-shadow:0 8px 30px rgba(233,69,96,.3)}
@@ -134,6 +135,7 @@ body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#fff;overflow-x:hid
 .hero-content p{font-size:14px}
 .section{padding:20px 16px}
 .genre-pills{padding:10px 16px}
+.genre-select{width:100%}
 .card{min-width:150px;max-width:150px}
 .card-img{height:210px}
 .modal{padding:20px;width:95%}
@@ -178,7 +180,20 @@ body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#fff;overflow-x:hid
 </div>
 </section>
 
-<div class="genre-pills" id="genrePills"></div>
+<div class="genre-pills" id="genrePills">
+<select class="genre-select" id="genreSelect" onchange="filterGenre(this.value)">
+<option value="All">All Genres</option>
+<option value="Action">Action</option>
+<option value="Comedy">Comedy</option>
+<option value="Drama">Drama</option>
+<option value="Horror">Horror</option>
+<option value="Sci-Fi">Sci-Fi</option>
+<option value="Thriller">Thriller</option>
+<option value="Romance">Romance</option>
+<option value="Animation">Animation</option>
+<option value="Documentary">Documentary</option>
+</select>
+</div>
 
 <section class="section" id="continueSection" style="display:none">
 <h2 class="section-title">Continue Watching</h2>
@@ -351,12 +366,12 @@ return h>0?`${h}h ${m}m`:`${m}m`;
 }
 
 function renderGenrePills(){
-const c=document.getElementById('genrePills');
-c.innerHTML=genres.map(g=>`<button class="pill${g===activeGenre?' active':''}" onclick="filterGenre('${g}')">${g}</button>`).join('');
+// Genre is now a dropdown, no dynamic rendering needed
+document.getElementById('genreSelect').value=activeGenre;
 }
 
 function filterGenre(g){
-activeGenre=g;renderGenrePills();renderSections();
+activeGenre=g;renderSections();
 }
 
 function getFiltered(){
