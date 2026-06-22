@@ -119,15 +119,16 @@ body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#fff;overflow-x:hid
 .player-video{width:100%;aspect-ratio:16/9;background:#000}
 .empty-state{text-align:center;padding:40px;color:rgba(255,255,255,.4);font-size:14px}
 @media(max-width:768px){
-.nav{padding:12px 16px;flex-wrap:wrap}
-.nav-left{width:100%}
+.nav{padding:12px 16px;flex-wrap:wrap;gap:12px}
+.nav-left{width:100%;display:flex;align-items:center;justify-content:space-between}
+.nav-left .user-info{font-size:12px}
 .logo{font-size:18px}
-.nav-right{width:100%;justify-content:space-between;flex-wrap:wrap;gap:8px}
-.search-box{flex:1}
+.nav-right{width:100%;flex-wrap:wrap;gap:8px;order:2}
+.search-box{width:100%;order:2}
 .search-box input{width:100%}
 .search-box input:focus{width:100%}
-.nav-right .nav-btn{display:inline-block}
-.logout-btn{display:block!important}
+.nav-right .nav-btn{order:1}
+.logout-btn{order:1}
 .hero{height:60vh;padding:0 16px 40px}
 .hero-content h1{font-size:28px}
 .hero-content p{font-size:14px}
