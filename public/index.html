@@ -8,24 +8,27 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0a0f;--bg2:#1a1a2e;--card:#1a1a2e;--accent:#e94560;--accent2:#f5a623;--glow:rgba(233,69,96,0.3);--txt:#e0e0e0;--txt2:#aaa;--muted:#666;--border:#333;--danger:#ff3333;--r:12px}
+:root{--bg:#0a0a0f;--bg2:#1a1a2e;--card:#1a1a2e;--accent:#e94560;--accent2:#f5a623;--glow:rgba(233,69,96,0.3);--txt:#e0e0e0;--txt2:#aaa;--muted:#666;--border:#333;--danger:#ff3333;--success:#22c55e;--r:12px}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
-header{background:linear-gradient(135deg,#1a1a2e,#16213e);backdrop-filter:blur(20px);padding:16px 32px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;border-bottom:2px solid #e94560}
+header{background:linear-gradient(135deg,#1a1a2e,#16213e);backdrop-filter:blur(20px);padding:16px 32px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--accent)}
 .logo{display:flex;align-items:center;gap:10px}
 .logo h1{font-size:1.5rem;font-weight:800;background:linear-gradient(90deg,#e94560,#f5a623);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .header-actions{display:flex;gap:12px;align-items:center}
-.search-box{padding:10px 18px;border-radius:30px;border:1px solid var(--border);background:var(--bg2);color:var(--txt);width:260px;font-size:.85rem;font-family:inherit;transition:.3s}
+.search-box{padding:10px 18px;border-radius:30px;border:1px solid var(--border);background:var(--bg2);color:var(--txt);width:240px;font-size:.85rem;font-family:inherit;transition:.3s}
 .search-box:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--glow)}
-.btn-upload{padding:10px 22px;background:linear-gradient(135deg,#e94560,#c23152);color:#fff;border:none;border-radius:30px;cursor:pointer;font-size:.85rem;font-weight:600;font-family:inherit;transition:.3s}
-.btn-upload:hover{transform:translateY(-1px);box-shadow:0 8px 25px var(--glow)}
-.genre-filter{padding:16px 32px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
-.genre-filter::-webkit-scrollbar{display:none}
+.btn{padding:9px 20px;border-radius:30px;border:none;cursor:pointer;font-size:.85rem;font-weight:600;font-family:inherit;transition:.3s}
+.btn-login{background:transparent;color:var(--txt);border:1px solid var(--border)}
+.btn-login:hover{border-color:var(--accent);color:var(--accent)}
+.btn-subscribe{background:linear-gradient(135deg,#e94560,#c23152);color:#fff}
+.btn-subscribe:hover{transform:translateY(-1px);box-shadow:0 8px 25px var(--glow)}
+.btn-sm{padding:7px 16px;font-size:.8rem}
+.user-badge{display:flex;align-items:center;gap:8px;color:var(--txt2);font-size:.85rem}
+.user-badge .avatar{width:32px;height:32px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:#fff;font-weight:700}
+.sub-badge{background:var(--success);color:#fff;padding:2px 8px;border-radius:10px;font-size:.65rem;font-weight:600}
 .genre-tag{padding:8px 18px;border-radius:30px;background:var(--bg2);border:1px solid var(--border);color:var(--txt2);cursor:pointer;white-space:nowrap;font-size:.8rem;font-weight:500;font-family:inherit;transition:.2s}
 .genre-tag:hover{color:var(--txt);border-color:var(--muted)}
 .genre-tag.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-.movies-section{padding:24px 32px}
 .section-title{font-size:1.2rem;font-weight:700;margin-bottom:20px}
-.movie-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:20px}
 .movie-card{background:var(--card);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:.4s cubic-bezier(.25,.46,.45,.94);border:1px solid transparent;position:relative}
 .movie-card:hover{transform:scale(1.05);border-color:var(--accent);box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 30px var(--glow);z-index:10}
 .movie-card:hover .play-overlay{opacity:1}
@@ -33,13 +36,16 @@ header{background:linear-gradient(135deg,#1a1a2e,#16213e);backdrop-filter:blur(2
 .movie-poster{width:100%;height:260px;background:var(--bg2);position:relative;overflow:hidden}
 .movie-poster img{width:100%;height:100%;object-fit:cover;transition:.4s}
 .movie-poster .no-poster{display:flex;align-items:center;justify-content:center;height:100%;font-size:3rem;color:var(--muted)}
-.play-overlay{position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:.3s}
-.play-btn{width:50px;height:50px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 4px 20px var(--glow)}
+.play-overlay{position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:.3s;flex-direction:column;gap:8px}
+.play-btn{padding:8px 16px;border-radius:20px;font-size:.75rem;font-weight:600;border:none;cursor:pointer;font-family:inherit}
+.play-trailer{background:rgba(255,255,255,.2);color:#fff;backdrop-filter:blur(4px)}
+.play-full{background:var(--accent);color:#fff}
 .movie-info{padding:14px}
 .movie-title{font-size:.9rem;font-weight:600;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .movie-meta{display:flex;justify-content:space-between;align-items:center}
 .movie-genre{background:rgba(233,69,96,.15);color:#e94560;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:500}
-.movie-size{color:var(--muted);font-size:.75rem}
+.movie-year{color:var(--muted);font-size:.75rem}
+@media(max-width:768px){header{padding:12px 16px;flex-wrap:wrap;gap:10px}.search-box{width:100%;order:3}#heroBanner{height:280px;padding:20px 16px}#heroTitle{font-size:1.4rem!important}section{padding:16px!important}}
 </style>
 </head>
 <body>
@@ -47,10 +53,24 @@ header{background:linear-gradient(135deg,#1a1a2e,#16213e);backdrop-filter:blur(2
 <div class="logo"><span>🎬</span><h1>Watchlist</h1></div>
 <div class="header-actions">
 <input type="text" class="search-box" id="searchInput" placeholder="Search movies...">
-<button class="btn-upload" id="btnUpload">+ Upload</button>
+<div id="authArea"></div>
 </div>
 </header>
-<div class="genre-filter" id="genreFilter">
+
+<!-- Hero Banner -->
+<div id="heroBanner" style="position:relative;height:400px;background:linear-gradient(to bottom,transparent 60%,var(--bg)),url('') center/cover;display:flex;align-items:flex-end;padding:40px 32px">
+<div id="heroContent" style="max-width:600px">
+<h2 id="heroTitle" style="font-size:2.2rem;font-weight:800;margin-bottom:8px"></h2>
+<p id="heroDesc" style="color:var(--txt2);font-size:.9rem;margin-bottom:16px"></p>
+<div style="display:flex;gap:10px">
+<button id="heroTrailer" class="btn btn-subscribe" onclick="playHeroTrailer()">▶ Watch Trailer</button>
+<button id="heroWatch" class="btn btn-login" onclick="playHeroMovie()">🎬 Watch Now</button>
+</div>
+</div>
+</div>
+
+<!-- Genre Filter -->
+<div style="padding:16px 32px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none" id="genreFilter">
 <span class="genre-tag active" data-genre="all">All</span>
 <span class="genre-tag" data-genre="Action">Action</span>
 <span class="genre-tag" data-genre="Comedy">Comedy</span>
@@ -59,149 +79,183 @@ header{background:linear-gradient(135deg,#1a1a2e,#16213e);backdrop-filter:blur(2
 <span class="genre-tag" data-genre="Sci-Fi">Sci-Fi</span>
 <span class="genre-tag" data-genre="Thriller">Thriller</span>
 <span class="genre-tag" data-genre="Romance">Romance</span>
-<span class="genre-tag" data-genre="Documentary">Documentary</span>
 <span class="genre-tag" data-genre="Animation">Animation</span>
 </div>
-<section class="movies-section">
+
+<!-- Movie Grid -->
+<section style="padding:24px 32px">
 <h2 class="section-title" id="sectionTitle">All Movies</h2>
-<div class="movie-grid" id="movieGrid"></div>
+<div id="movieGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:20px"></div>
 <div id="emptyState" style="display:none;text-align:center;padding:80px 20px;color:var(--muted)">
 <div style="font-size:4rem;margin-bottom:16px">🎥</div>
-<h3 style="font-size:1.3rem;color:var(--txt2);margin-bottom:8px">No movies yet</h3>
-<p style="font-size:.9rem">Upload your first movie to get started</p>
+<h3 style="color:var(--txt2);margin-bottom:8px">No movies available</h3>
+<p style="font-size:.9rem">Check back later for new content!</p>
 </div>
 </section>
 
 <!-- Player Modal -->
-<div class="modal-overlay" id="playerModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:1000;justify-content:center;align-items:center;flex-direction:column;backdrop-filter:blur(10px)">
+<div id="playerModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:1000;justify-content:center;align-items:center;flex-direction:column;backdrop-filter:blur(10px)">
 <div style="width:90%;max-width:1100px;position:relative">
-<button id="playerClose" style="position:absolute;top:-50px;right:0;background:var(--card);border:1px solid var(--border);color:#fff;font-size:1.2rem;cursor:pointer;padding:8px 14px;border-radius:10px">&times;</button>
+<button onclick="closePlayer()" style="position:absolute;top:-50px;right:0;background:var(--card);border:1px solid var(--border);color:#fff;font-size:1.2rem;cursor:pointer;padding:8px 14px;border-radius:10px">&times;</button>
 <video id="videoPlayer" controls style="width:100%;border-radius:var(--r);background:#000;max-height:70vh"></video>
 <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center">
 <span id="playerTitle" style="font-size:1.2rem;font-weight:700"></span>
-<div style="display:flex;gap:10px">
-<button id="btnDownload" style="padding:9px 20px;border-radius:30px;border:1px solid var(--border);background:var(--card);color:var(--txt);cursor:pointer;font-size:.8rem;font-weight:500;font-family:inherit">⬇ Download</button>
-<button id="btnDelete" style="padding:9px 20px;border-radius:30px;border:1px solid var(--border);background:var(--card);color:var(--txt);cursor:pointer;font-size:.8rem;font-weight:500;font-family:inherit">🗑 Delete</button>
-</div>
+<span id="playerBadge" style="font-size:.75rem;padding:4px 12px;border-radius:20px"></span>
 </div>
 </div>
 </div>
 
-<!-- Upload Modal -->
-<div class="upload-modal" id="uploadModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:1000;justify-content:center;align-items:center;backdrop-filter:blur(10px)">
-<div style="background:var(--bg2);padding:36px;border-radius:var(--r);width:90%;max-width:480px;border:1px solid var(--border)">
-<h2 style="margin-bottom:24px;font-size:1.4rem;font-weight:700">🎬 Upload Movie</h2>
-<form id="uploadForm">
-<div style="margin-bottom:16px">
-<label style="display:block;margin-bottom:6px;font-size:.8rem;color:var(--txt2)">Movie File *</label>
-<div id="movieFileWrapper" style="border:2px dashed var(--border);border-radius:10px;padding:24px;text-align:center;cursor:pointer;transition:.2s;position:relative">
-<p style="color:var(--muted);font-size:.85rem">📁 Click to select movie file</p>
-<p id="movieFileName" style="color:var(--accent);margin-top:6px;font-size:.8rem"></p>
-<input type="file" id="movieFile" accept="video/*" required style="position:absolute;inset:0;opacity:0;cursor:pointer">
+<!-- Subscribe Modal -->
+<div id="subModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:1001;justify-content:center;align-items:center;backdrop-filter:blur(10px)">
+<div style="background:var(--bg2);padding:40px;border-radius:var(--r);width:90%;max-width:400px;border:1px solid var(--border);text-align:center">
+<div style="font-size:3rem;margin-bottom:16px">🔒</div>
+<h2 style="margin-bottom:8px;font-size:1.3rem">Subscribe to Watch</h2>
+<p style="color:var(--txt2);font-size:.9rem;margin-bottom:24px">Full movies are for subscribers only. Trailers are free!</p>
+<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:20px">
+<div style="font-size:1.8rem;font-weight:800;color:var(--accent)">R49<span style="font-size:.9rem;color:var(--txt2)">/month</span></div>
+<p style="color:var(--txt2);font-size:.8rem;margin-top:8px">Unlimited movies • Cancel anytime</p>
 </div>
-</div>
-<div style="margin-bottom:16px">
-<label style="display:block;margin-bottom:6px;font-size:.8rem;color:var(--txt2)">Title</label>
-<input type="text" id="movieTitle" placeholder="Movie title" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--txt);font-size:.9rem;font-family:inherit">
-</div>
-<div style="margin-bottom:16px">
-<label style="display:block;margin-bottom:6px;font-size:.8rem;color:var(--txt2)">Genre</label>
-<select id="movieGenre" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--txt);font-size:.9rem;font-family:inherit">
-<option value="Uncategorized">Select genre...</option>
-<option value="Action">Action</option><option value="Comedy">Comedy</option><option value="Drama">Drama</option>
-<option value="Horror">Horror</option><option value="Sci-Fi">Sci-Fi</option><option value="Thriller">Thriller</option>
-<option value="Romance">Romance</option><option value="Documentary">Documentary</option><option value="Animation">Animation</option>
-</select>
-</div>
-<div style="margin-bottom:16px">
-<label style="display:block;margin-bottom:6px;font-size:.8rem;color:var(--txt2)">Poster Image (optional)</label>
-<div style="border:2px dashed var(--border);border-radius:10px;padding:16px;text-align:center;cursor:pointer;position:relative">
-<p style="color:var(--muted);font-size:.85rem">🖼 Click to select poster</p>
-<p id="posterFileName" style="color:var(--accent);margin-top:6px;font-size:.8rem"></p>
-<input type="file" id="posterFile" accept="image/*" style="position:absolute;inset:0;opacity:0;cursor:pointer">
-</div>
-</div>
-<div id="uploadProgress" style="display:none;margin-top:16px">
-<div style="width:100%;height:6px;background:var(--border);border-radius:3px;overflow:hidden">
-<div id="progressFill" style="height:100%;background:linear-gradient(90deg,var(--accent),#a78bfa);width:0%;transition:.3s;border-radius:3px"></div>
-</div>
-<p id="progressText" style="margin-top:6px;font-size:.8rem;color:var(--muted);text-align:center">Uploading... 0%</p>
-</div>
-<div style="display:flex;gap:10px;margin-top:24px">
-<button type="button" id="btnCancelUpload" style="padding:12px 24px;background:none;color:var(--txt2);border:1px solid var(--border);border-radius:10px;cursor:pointer;font-size:.9rem;font-family:inherit">Cancel</button>
-<button type="submit" id="btnSubmitUpload" style="flex:1;padding:12px;background:var(--accent);color:#fff;border:none;border-radius:10px;cursor:pointer;font-size:.9rem;font-weight:600;font-family:inherit">Upload</button>
-</div>
-</form>
+<button class="btn btn-subscribe" style="width:100%;padding:14px" onclick="subscribe()">Subscribe Now</button>
+<button class="btn btn-login" style="width:100%;margin-top:10px;padding:14px" onclick="document.getElementById('subModal').style.display='none'">Maybe Later</button>
 </div>
 </div>
 
+<!-- Auth Modal -->
+<div id="authModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:1001;justify-content:center;align-items:center;backdrop-filter:blur(10px)">
+<div style="background:var(--bg2);padding:36px;border-radius:var(--r);width:90%;max-width:400px;border:1px solid var(--border)">
+<h2 id="authTitle" style="margin-bottom:20px;font-size:1.3rem">Sign In</h2>
+<div id="authUsername" style="margin-bottom:14px;display:none">
+<label style="display:block;margin-bottom:6px;font-size:.8rem;color:var(--txt2)">Username</label>
+<input type="text" id="inputUsername" placeholder="Your name" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--txt);font-size:.9rem;font-family:inherit">
+</div>
+<div style="margin-bottom:14px">
+<label style="display:block;margin-bottom:6px;font-size:.8rem;color:var(--txt2)">Email</label>
+<input type="email" id="inputEmail" placeholder="email@example.com" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--txt);font-size:.9rem;font-family:inherit">
+</div>
+<div style="margin-bottom:20px">
+<label style="display:block;margin-bottom:6px;font-size:.8rem;color:var(--txt2)">Password</label>
+<input type="password" id="inputPassword" placeholder="••••••••" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--txt);font-size:.9rem;font-family:inherit">
+</div>
+<button class="btn btn-subscribe" style="width:100%;padding:12px" onclick="submitAuth()">Continue</button>
+<p style="text-align:center;margin-top:14px;font-size:.8rem;color:var(--txt2)">
+<span id="authToggle" style="color:var(--accent);cursor:pointer" onclick="toggleAuth()">Create an account</span>
+</p>
+<button class="btn btn-login" style="width:100%;margin-top:10px;padding:10px" onclick="document.getElementById('authModal').style.display='none'">Cancel</button>
+</div>
+</div>
 <script>
-let movies=[],currentMovie=null,currentFilter='all';
-const movieGrid=document.getElementById('movieGrid'),emptyState=document.getElementById('emptyState'),searchInput=document.getElementById('searchInput'),playerModal=document.getElementById('playerModal'),uploadModal=document.getElementById('uploadModal'),videoPlayer=document.getElementById('videoPlayer');
+let movies=[],currentMovie=null,currentFilter='all',currentUser=null,authMode='login';
 
-async function loadMovies(){try{const r=await fetch('/api/movies');movies=await r.json();renderMovies()}catch(e){console.error(e)}}
+// Load user from localStorage
+const saved=localStorage.getItem('watchlist_user');
+if(saved)currentUser=JSON.parse(saved);
+
+async function loadMovies(){try{const r=await fetch('/api/movies');movies=await r.json();renderMovies();renderHero()}catch(e){console.error(e)}}
+
+function renderHero(){
+const banner=document.getElementById('heroBanner');
+if(!movies.length){banner.style.display='none';return}
+banner.style.display='flex';
+const featured=movies[Math.floor(Math.random()*movies.length)];
+document.getElementById('heroTitle').textContent=featured.title;
+document.getElementById('heroDesc').textContent=featured.description||featured.genre+' • '+featured.year;
+if(featured.poster)banner.style.backgroundImage='linear-gradient(to bottom,transparent 40%,var(--bg)),url(/posters/'+featured.poster+')';
+banner.dataset.movieId=featured.id;
+}
 
 function renderMovies(){
 let f=movies;
 if(currentFilter!=='all')f=f.filter(m=>m.genre===currentFilter);
-const q=searchInput.value.toLowerCase();
-if(q)f=f.filter(m=>m.title.toLowerCase().includes(q)||m.description.toLowerCase().includes(q));
-if(!f.length){movieGrid.innerHTML='';emptyState.style.display='block';return}
-emptyState.style.display='none';
-movieGrid.innerHTML=f.map(m=>`
-<div class="movie-card" onclick="openPlayer('${m.id}')">
+const q=document.getElementById('searchInput').value.toLowerCase();
+if(q)f=f.filter(m=>m.title.toLowerCase().includes(q));
+if(!f.length){document.getElementById('movieGrid').innerHTML='';document.getElementById('emptyState').style.display='block';return}
+document.getElementById('emptyState').style.display='none';
+document.getElementById('movieGrid').innerHTML=f.map(m=>`
+<div class="movie-card" data-id="${m.id}">
 <div class="movie-poster">
 ${m.poster?`<img src="/posters/${m.poster}" alt="${m.title}">`:`<div class="no-poster">🎬</div>`}
-<div class="play-overlay"><div class="play-btn">▶</div></div>
+<div class="play-overlay">
+${m.trailer?`<button class="play-btn play-trailer" onclick="event.stopPropagation();playTrailer('${m.id}')">▶ Trailer</button>`:''}
+<button class="play-btn play-full" onclick="event.stopPropagation();playMovie('${m.id}')">🎬 Watch</button>
+</div>
 </div>
 <div class="movie-info">
 <div class="movie-title">${m.title}</div>
-<div class="movie-meta"><span class="movie-genre">${m.genre}</span><span class="movie-size">${formatSize(m.size)}</span></div>
+<div class="movie-meta"><span class="movie-genre">${m.genre}</span><span class="movie-year">${m.year}</span></div>
 </div>
 </div>`).join('')}
 
-function formatSize(b){if(b<1048576)return(b/1024).toFixed(1)+' KB';if(b<1073741824)return(b/1048576).toFixed(1)+' MB';return(b/1073741824).toFixed(2)+' GB'}
+function playTrailer(id){
+const m=movies.find(x=>x.id===id);if(!m||!m.trailer)return showToast('No trailer available');
+document.getElementById('playerTitle').textContent=m.title+' — Trailer';
+document.getElementById('playerBadge').textContent='FREE';
+document.getElementById('playerBadge').style.background='var(--success)';
+document.getElementById('videoPlayer').src='/trailer/'+id;
+document.getElementById('playerModal').style.display='flex';
+document.body.style.overflow='hidden';
+}
 
-function openPlayer(id){
-currentMovie=movies.find(m=>m.id===id);if(!currentMovie)return;
-document.getElementById('playerTitle').textContent=currentMovie.title;
-videoPlayer.src='/stream/'+id;
-playerModal.style.display='flex';document.body.style.overflow='hidden'}
+function playMovie(id){
+if(!currentUser){document.getElementById('authModal').style.display='flex';return}
+if(!currentUser.subscribed){document.getElementById('subModal').style.display='flex';return}
+const m=movies.find(x=>x.id===id);if(!m)return;
+document.getElementById('playerTitle').textContent=m.title;
+document.getElementById('playerBadge').textContent='FULL MOVIE';
+document.getElementById('playerBadge').style.background='var(--accent)';
+document.getElementById('videoPlayer').src='/stream/'+id;
+document.getElementById('playerModal').style.display='flex';
+document.body.style.overflow='hidden';
+}
 
-document.getElementById('playerClose').onclick=()=>{videoPlayer.pause();videoPlayer.src='';playerModal.style.display='none';document.body.style.overflow=''}
-document.getElementById('btnDownload').onclick=()=>{if(currentMovie)window.location.href='/download/'+currentMovie.id}
-document.getElementById('btnDelete').onclick=async()=>{if(!currentMovie||!confirm('Delete "'+currentMovie.title+'"?'))return;await fetch('/api/movies/'+currentMovie.id,{method:'DELETE'});videoPlayer.pause();videoPlayer.src='';playerModal.style.display='none';document.body.style.overflow='';showToast('Deleted');loadMovies()}
+function playHeroTrailer(){const id=document.getElementById('heroBanner').dataset.movieId;playTrailer(id)}
+function playHeroMovie(){const id=document.getElementById('heroBanner').dataset.movieId;playMovie(id)}
 
-document.getElementById('btnUpload').onclick=()=>{uploadModal.style.display='flex'}
-document.getElementById('btnCancelUpload').onclick=()=>{uploadModal.style.display='none';document.getElementById('uploadForm').reset();document.getElementById('movieFileName').textContent='';document.getElementById('posterFileName').textContent=''}
+function closePlayer(){document.getElementById('videoPlayer').pause();document.getElementById('videoPlayer').src='';document.getElementById('playerModal').style.display='none';document.body.style.overflow=''}
 
-document.getElementById('movieFile').onchange=e=>{const n=e.target.files[0]?.name||'';document.getElementById('movieFileName').textContent=n;if(n&&!document.getElementById('movieTitle').value)document.getElementById('movieTitle').value=n.replace(/\.[^/.]+$/,'')}
-document.getElementById('posterFile').onchange=e=>{document.getElementById('posterFileName').textContent=e.target.files[0]?.name||''}
+async function subscribe(){
+if(!currentUser){document.getElementById('subModal').style.display='none';document.getElementById('authModal').style.display='flex';return}
+try{const r=await fetch('/api/users/'+currentUser.id+'/subscribe',{method:'POST'});const u=await r.json();currentUser.subscribed=true;localStorage.setItem('watchlist_user',JSON.stringify(currentUser));document.getElementById('subModal').style.display='none';renderAuth();showToast('Subscribed! Enjoy unlimited movies 🎬')}catch(e){showToast('Failed to subscribe')}}
 
-document.getElementById('uploadForm').onsubmit=async e=>{
-e.preventDefault();
-const f=document.getElementById('movieFile').files[0];if(!f)return;
-const fd=new FormData();
-fd.append('movie',f);
-fd.append('title',document.getElementById('movieTitle').value||f.name);
-fd.append('genre',document.getElementById('movieGenre').value);
-const p=document.getElementById('posterFile').files[0];if(p)fd.append('poster',p);
-const prog=document.getElementById('uploadProgress'),fill=document.getElementById('progressFill'),txt=document.getElementById('progressText'),btn=document.getElementById('btnSubmitUpload');
-prog.style.display='block';btn.disabled=true;
-const xhr=new XMLHttpRequest();
-xhr.upload.onprogress=e=>{if(e.lengthComputable){const pct=Math.round(e.loaded/e.total*100);fill.style.width=pct+'%';txt.textContent='Uploading... '+pct+'%'}};
-xhr.onload=()=>{if(xhr.status===201){uploadModal.style.display='none';document.getElementById('uploadForm').reset();document.getElementById('movieFileName').textContent='';document.getElementById('posterFileName').textContent='';prog.style.display='none';fill.style.width='0%';btn.disabled=false;showToast('Uploaded!');loadMovies()}};
-xhr.onerror=()=>{showToast('Upload failed');prog.style.display='none';btn.disabled=false};
-xhr.open('POST','/api/movies');xhr.send(fd)}
+function toggleAuth(){
+authMode=authMode==='login'?'register':'login';
+document.getElementById('authTitle').textContent=authMode==='login'?'Sign In':'Create Account';
+document.getElementById('authUsername').style.display=authMode==='register'?'block':'none';
+document.getElementById('authToggle').textContent=authMode==='login'?'Create an account':'Already have an account? Sign in';
+}
+
+async function submitAuth(){
+const email=document.getElementById('inputEmail').value;
+const password=document.getElementById('inputPassword').value;
+if(!email||!password)return showToast('Fill all fields');
+if(authMode==='register'){
+const username=document.getElementById('inputUsername').value;
+if(!username)return showToast('Enter a username');
+const r=await fetch('/api/users/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username,email,password})});
+if(!r.ok){const e=await r.json();return showToast(e.error)}
+const u=await r.json();currentUser=u;localStorage.setItem('watchlist_user',JSON.stringify(u));
+}else{
+const r=await fetch('/api/users/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+if(!r.ok){const e=await r.json();return showToast(e.error)}
+const u=await r.json();currentUser=u;localStorage.setItem('watchlist_user',JSON.stringify(u));
+}
+document.getElementById('authModal').style.display='none';renderAuth();showToast('Welcome, '+currentUser.username+'!')
+}
+
+function logout(){currentUser=null;localStorage.removeItem('watchlist_user');renderAuth();showToast('Logged out')}
+
+function renderAuth(){
+const area=document.getElementById('authArea');
+if(!currentUser){area.innerHTML='<button class="btn btn-login" onclick="document.getElementById(\'authModal\').style.display=\'flex\'">Sign In</button><button class="btn btn-subscribe btn-sm" onclick="document.getElementById(\'subModal\').style.display=\'flex\'">Subscribe</button>';return}
+area.innerHTML=`<div class="user-badge"><div class="avatar">${currentUser.username[0].toUpperCase()}</div><span>${currentUser.username}</span>${currentUser.subscribed?'<span class="sub-badge">PRO</span>':''}</div><button class="btn btn-login btn-sm" onclick="logout()">Logout</button>`;
+}
 
 document.getElementById('genreFilter').onclick=e=>{if(e.target.classList.contains('genre-tag')){document.querySelectorAll('.genre-tag').forEach(t=>t.classList.remove('active'));e.target.classList.add('active');currentFilter=e.target.dataset.genre;document.getElementById('sectionTitle').textContent=currentFilter==='all'?'All Movies':currentFilter;renderMovies()}}
+document.getElementById('searchInput').oninput=renderMovies;
+document.onkeydown=e=>{if(e.key==='Escape'){closePlayer();document.getElementById('subModal').style.display='none';document.getElementById('authModal').style.display='none'}}
 
-searchInput.oninput=renderMovies;
-document.onkeydown=e=>{if(e.key==='Escape'){if(playerModal.style.display==='flex'){videoPlayer.pause();videoPlayer.src='';playerModal.style.display='none';document.body.style.overflow=''}if(uploadModal.style.display==='flex')uploadModal.style.display='none'}}
+function showToast(msg){const t=document.createElement('div');t.style.cssText='position:fixed;bottom:30px;right:30px;padding:14px 24px;background:var(--card);border:1px solid var(--accent);border-radius:12px;color:#fff;font-size:.9rem;z-index:2000';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),3000)}
 
-function showToast(msg){const t=document.createElement('div');t.style.cssText='position:fixed;bottom:30px;right:30px;padding:14px 24px;background:var(--card);border:1px solid var(--accent);border-radius:12px;color:#fff;font-size:.9rem;z-index:2000;animation:fadeIn .3s';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),3000)}
-
-loadMovies();
+renderAuth();loadMovies();
 </script>
 </body>
 </html>
