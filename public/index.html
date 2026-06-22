@@ -50,7 +50,7 @@ header{background:linear-gradient(135deg,#1a1a2e,#16213e);backdrop-filter:blur(2
 </head>
 <body>
 <header>
-<div class="logo"><span>🎬</span><h1>Watchlist</h1></div>
+<div class="logo"><span>🎬</span><h1>Watchlist</h1><span id="welcomeArea" style="margin-left:16px"></span></div>
 <div class="header-actions">
 <input type="text" class="search-box" id="searchInput" placeholder="Search movies...">
 <div id="authArea"></div>
@@ -245,8 +245,10 @@ function logout(){currentUser=null;localStorage.removeItem('watchlist_user');ren
 
 function renderAuth(){
 const area=document.getElementById('authArea');
-if(!currentUser){area.innerHTML='<button class="btn btn-login" onclick="document.getElementById(\'authModal\').style.display=\'flex\'">Sign In</button><button class="btn btn-subscribe btn-sm" onclick="document.getElementById(\'subModal\').style.display=\'flex\'">Subscribe</button>';return}
-area.innerHTML=`<div class="user-badge"><div class="avatar">${currentUser.username[0].toUpperCase()}</div><span>Welcome, ${currentUser.username}</span>${currentUser.subscribed?'<span class="sub-badge">PRO</span>':''}</div><button class="btn btn-login btn-sm" onclick="logout()">Logout</button>`;
+const welcome=document.getElementById('welcomeArea');
+if(!currentUser){welcome.innerHTML='';area.innerHTML='<button class="btn btn-login" onclick="document.getElementById(\'authModal\').style.display=\'flex\'">Sign In</button><button class="btn btn-subscribe btn-sm" onclick="document.getElementById(\'subModal\').style.display=\'flex\'">Subscribe</button>';return}
+welcome.innerHTML=`<div class="user-badge"><div class="avatar">${currentUser.username[0].toUpperCase()}</div><span>Welcome, ${currentUser.username}</span>${currentUser.subscribed?'<span class="sub-badge">PRO</span>':''}</div>`;
+area.innerHTML=`<button class="btn btn-login btn-sm" onclick="logout()">Logout</button>`;
 }
 
 document.getElementById('genreFilter').onclick=e=>{if(e.target.classList.contains('genre-tag')){document.querySelectorAll('.genre-tag').forEach(t=>t.classList.remove('active'));e.target.classList.add('active');currentFilter=e.target.dataset.genre;document.getElementById('sectionTitle').textContent=currentFilter==='all'?'All Movies':currentFilter;renderMovies()}}
