@@ -124,17 +124,16 @@ body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#fff;overflow-x:hid
 .player-video{width:100%;aspect-ratio:16/9;background:#000}
 .empty-state{text-align:center;padding:40px;color:rgba(255,255,255,.4);font-size:14px}
 @media(max-width:768px){
-.nav{padding:10px 16px;flex-wrap:wrap;gap:8px}
-.nav-left{width:100%}
+.nav{padding:10px 16px;flex-wrap:nowrap}
+.nav-left{flex-shrink:0}
 .nav-left .user-info{display:none!important}
 .logo{font-size:16px}
-.nav-right{width:100%;gap:8px;justify-content:space-between}
-.search-box{flex:1}
-.search-box input{width:100%;padding:8px 12px 8px 30px;font-size:13px}
-.search-box input:focus{width:100%}
-.search-box svg{left:9px;width:13px;height:13px}
-.nav-btn{padding:7px 14px;font-size:12px}
-.logout-btn{font-size:12px}
+.nav-right{gap:6px;margin-left:auto}
+.search-box input{width:80px;padding:6px 8px 6px 26px;font-size:12px}
+.search-box input:focus{width:110px}
+.search-box svg{left:7px;width:12px;height:12px}
+.nav-btn{padding:6px 10px;font-size:11px}
+.logout-btn{font-size:11px}
 .sub-nav{padding:8px 16px;gap:8px;top:44px;overflow-x:auto;flex-wrap:nowrap}
 .nav-tabs{flex-shrink:0;gap:2px}
 .nav-tab{font-size:11px;padding:5px 8px}
