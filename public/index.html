@@ -246,7 +246,7 @@ function logout(){currentUser=null;localStorage.removeItem('watchlist_user');ren
 function renderAuth(){
 const area=document.getElementById('authArea');
 if(!currentUser){area.innerHTML='<button class="btn btn-login" onclick="document.getElementById(\'authModal\').style.display=\'flex\'">Sign In</button><button class="btn btn-subscribe btn-sm" onclick="document.getElementById(\'subModal\').style.display=\'flex\'">Subscribe</button>';return}
-area.innerHTML=`<div class="user-badge"><div class="avatar">${currentUser.username[0].toUpperCase()}</div><span>${currentUser.username}</span>${currentUser.subscribed?'<span class="sub-badge">PRO</span>':''}</div><button class="btn btn-login btn-sm" onclick="logout()">Logout</button>`;
+area.innerHTML=`<div class="user-badge"><div class="avatar">${currentUser.username[0].toUpperCase()}</div><span>Welcome, ${currentUser.username}</span>${currentUser.subscribed?'<span class="sub-badge">PRO</span>':''}</div><button class="btn btn-login btn-sm" onclick="logout()">Logout</button>`;
 }
 
 document.getElementById('genreFilter').onclick=e=>{if(e.target.classList.contains('genre-tag')){document.querySelectorAll('.genre-tag').forEach(t=>t.classList.remove('active'));e.target.classList.add('active');currentFilter=e.target.dataset.genre;document.getElementById('sectionTitle').textContent=currentFilter==='all'?'All Movies':currentFilter;renderMovies()}}
