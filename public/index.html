@@ -19,9 +19,9 @@ body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#fff;overflow-x:hid
 .pro-badge{background:linear-gradient(135deg,#f5a623,#e94560);padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700}
 .nav-right{display:flex;align-items:center;gap:16px}
 .search-box{position:relative}
-.search-box input{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:24px;padding:8px 16px 8px 36px;color:#fff;font-size:14px;width:200px;transition:width .3s}
-.search-box input:focus{width:280px;outline:none;border-color:#e94560}
-.search-box svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;fill:rgba(255,255,255,.5)}
+.search-box input{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:24px;padding:7px 14px 7px 32px;color:#fff;font-size:13px;width:140px;transition:width .3s}
+.search-box input:focus{width:200px;outline:none;border-color:#e94560}
+.search-box svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:14px;height:14px;fill:rgba(255,255,255,.5)}
 .nav-btn{background:none;border:1px solid rgba(255,255,255,.3);color:#fff;padding:8px 16px;border-radius:20px;cursor:pointer;font-size:13px;font-family:'Inter',sans-serif;transition:all .2s}
 .nav-btn:hover{border-color:#e94560;color:#e94560}
 .nav-btn.primary{background:linear-gradient(135deg,#e94560,#f5a623);border:none;color:#fff}
@@ -54,6 +54,7 @@ body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#fff;overflow-x:hid
 .nav-tab{color:rgba(255,255,255,.6);font-size:13px;font-weight:500;cursor:pointer;padding:6px 14px;border-radius:20px;transition:all .2s;text-decoration:none;white-space:nowrap}
 .nav-tab:hover{color:#fff}
 .nav-tab.active{color:#fff;background:rgba(233,69,96,.2);border:1px solid rgba(233,69,96,.4)}
+.sub-nav{display:flex;align-items:center;justify-content:space-between;padding:10px 40px;background:rgba(26,26,46,.8);border-bottom:1px solid rgba(255,255,255,.05);position:sticky;top:56px;z-index:99}
 .row{display:flex;gap:16px;overflow-x:auto;padding-bottom:16px;scroll-behavior:smooth}
 .card{position:relative;min-width:200px;max-width:200px;border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .3s,box-shadow .3s;flex-shrink:0}
 .card:hover{transform:scale(1.05);box-shadow:0 8px 30px rgba(233,69,96,.3)}
@@ -141,6 +142,7 @@ body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#fff;overflow-x:hid
 .genre-select{width:auto;order:0}
 .nav-tabs{order:0;width:100%;overflow-x:auto;scrollbar-width:none}
 .nav-tabs::-webkit-scrollbar{display:none}
+.sub-nav{padding:10px 16px;flex-wrap:wrap;gap:8px;top:52px}
 .card{min-width:150px;max-width:150px}
 .card-img{height:210px}
 .modal{padding:20px;width:95%}
@@ -157,6 +159,15 @@ body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#fff;overflow-x:hid
 </div>
 </div>
 <div class="nav-right">
+<div class="search-box">
+<svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+<input type="text" id="searchInput" placeholder="Search...">
+</div>
+<button class="nav-btn primary" id="signInBtn" onclick="showAuth()">Sign In</button>
+<button class="logout-btn" id="logoutBtn" style="display:none" onclick="logout()">Logout</button>
+</div>
+</nav>
+<div class="sub-nav">
 <nav class="nav-tabs" id="navTabs">
 <a class="nav-tab active" data-tab="all" onclick="switchTab('all')">All Movies</a>
 <a class="nav-tab" data-tab="trending" onclick="switchTab('trending')">Trending</a>
@@ -174,14 +185,7 @@ body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#fff;overflow-x:hid
 <option value="Animation">Animation</option>
 <option value="Documentary">Documentary</option>
 </select>
-<div class="search-box">
-<svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-<input type="text" id="searchInput" placeholder="Search movies...">
 </div>
-<button class="nav-btn primary" id="signInBtn" onclick="showAuth()">Sign In</button>
-<button class="logout-btn" id="logoutBtn" style="display:none" onclick="logout()">Logout</button>
-</div>
-</nav>
 
 <section class="hero" id="heroSection">
 <div class="hero-bg" id="heroBg"></div>
