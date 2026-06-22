@@ -119,10 +119,15 @@ body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#fff;overflow-x:hid
 .player-video{width:100%;aspect-ratio:16/9;background:#000}
 .empty-state{text-align:center;padding:40px;color:rgba(255,255,255,.4);font-size:14px}
 @media(max-width:768px){
-.nav{padding:12px 16px}
+.nav{padding:12px 16px;flex-wrap:wrap}
+.nav-left{width:100%}
 .logo{font-size:18px}
-.search-box input{width:140px}
-.search-box input:focus{width:180px}
+.nav-right{width:100%;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.search-box{flex:1}
+.search-box input{width:100%}
+.search-box input:focus{width:100%}
+.nav-right .nav-btn{display:inline-block}
+.logout-btn{display:block!important}
 .hero{height:60vh;padding:0 16px 40px}
 .hero-content h1{font-size:28px}
 .hero-content p{font-size:14px}
@@ -131,7 +136,6 @@ body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#fff;overflow-x:hid
 .card{min-width:150px;max-width:150px}
 .card-img{height:210px}
 .modal{padding:20px;width:95%}
-.nav-right .nav-btn:not(.primary){display:none}
 }
 </style>
 </head>
