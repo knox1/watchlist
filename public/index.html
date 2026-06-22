@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watchlist</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e94560;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #e94560, #f5a623);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .search-box {
+            padding: 10px 16px;
+            border-radius: 25px;
+            border: 1px solid #333;
+            background: #1a1a2e;
+            color: #fff;
+            width: 250px;
+            font-size: 0.9rem;
+            transition: border-color 0.3s;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #e94560;
+        }
+
+        .btn-upload {
+            padding: 10px 24px;
+            background: linear-gradient(135deg, #e94560, #c23152);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-upload:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(233, 69, 96, 0.4);
+        }
+
+        /* Genre filter */
+        .genre-filter {
+            padding: 15px 40px;
+            background: #0f0f1a;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            border-bottom: 1px solid #1a1a2e;
+        }
+
+        .genre-tag {
+            padding: 6px 16px;
+            border-radius: 20px;
+            background: #1a1a2e;
+            border: 1px solid #333;
+            color: #aaa;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .genre-tag:hover, .genre-tag.active {
+            background: #e94560;
+            color: white;
+            border-color: #e94560;
+        }
+
+        /* Movie Grid */
+        .movies-section {
+            padding: 30px 40px;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 24px;
+        }
+
+        .movie-card {
+            background: #1a1a2e;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(233, 69, 96, 0.2);
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            background: #2a2a3e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .movie-poster img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .movie-poster .no-poster {
+            font-size: 3rem;
+            color: #444;
+        }
+
+        .movie-info {
+            padding: 14px;
+        }
+
+        .movie-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .movie-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .movie-genre {
+            background: #2a2a3e;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+        }
+
+        .movie-size {
+            color: #666;
+        }
+
+        /* Player Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .player-container {
+            width: 90%;
+            max-width: 1100px;
+            position: relative;
+        }
+
+        .player-close {
+            position: absolute;
+            top: -45px;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 5px 12px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .player-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .video-player {
+            width: 100%;
+            border-radius: 12px;
+            background: #000;
+            max-height: 70vh;
+        }
+
+        .player-info {
+            margin-top: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .player-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .player-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-action {
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 1px solid #333;
+            background: #1a1a2e;
+            color: #e0e0e0;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover {
+            background: #e94560;
+            border-color: #e94560;
+        }
+
+        .btn-action.delete:hover {
+            background: #ff3333;
+            border-color: #ff3333;
+        }
+
+        /* Upload Modal */
+        .upload-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .upload-modal.active {
+            display: flex;
+        }
+
+        .upload-form {
+            background: #1a1a2e;
+            padding: 40px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid #333;
+        }
+
+        .upload-form h2 {
+            margin-bottom: 24px;
+            color: #e94560;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            background: #0a0a0f;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .form-group textarea {
+            height: 80px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #e94560;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            border: 2px dashed #333;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .file-input-wrapper:hover {
+            border-color: #e94560;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-input-wrapper p {
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        .file-input-wrapper .selected-file {
+            color: #e94560;
+            margin-top: 6px;
+            font-size: 0.8rem;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        .btn-submit {
+            flex: 1;
+            padding: 12px;
+            background: linear-gradient(135deg, #e94560, #c23152);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+
+        .btn-submit:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-cancel {
+            padding: 12px 24px;
+            background: none;
+            color: #888;
+            border: 1px solid #333;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .btn-cancel:hover {
+            color: white;
+            border-color: #666;
+        }
+
+        /* Progress bar */
+        .upload-progress {
+            display: none;
+            margin-top: 16px;
+        }
+
+        .upload-progress.active {
+            display: block;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #333;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #e94560, #f5a623);
+            width: 0%;
+            transition: width 0.3s;
+            border-radius: 3px;
+        }
+
+        .progress-text {
+            margin-top: 6px;
+            font-size: 0.8rem;
+            color: #888;
+            text-align: center;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #555;
+        }
+
+        .empty-state .icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+
+        .empty-state h3 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            color: #777;
+        }
+
+        .empty-state p {
+            font-size: 0.9rem;
+        }
+
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 14px 24px;
+            background: #1a1a2e;
+            border: 1px solid #e94560;
+            border-radius: 10px;
+            color: white;
+            font-size: 0.9rem;
+            z-index: 2000;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .logo h1 {
+                font-size: 1.3rem;
+            }
+
+            .search-box {
+                width: 100%;
+                order: 3;
+            }
+
+            .movies-section {
+                padding: 20px;
+            }
+
+            .movie-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 16px;
+            }
+
+            .movie-poster {
+                height: 220px;
+            }
+
+            .upload-form {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <span class="logo-icon">🎬</span>
+            <h1>Watchlist</h1>
+        </div>
+        <div class="header-actions">
+            <input type="text" class="search-box" id="searchInput" placeholder="Search movies...">
+            <button class="btn-upload" id="btnUpload">+ Upload Movie</button>
+        </div>
+    </header>
+
+    <!-- Genre Filter -->
+    <div class="genre-filter" id="genreFilter">
+        <span class="genre-tag active" data-genre="all">All</span>
+        <span class="genre-tag" data-genre="Action">Action</span>
+        <span class="genre-tag" data-genre="Comedy">Comedy</span>
+        <span class="genre-tag" data-genre="Drama">Drama</span>
+        <span class="genre-tag" data-genre="Horror">Horror</span>
+        <span class="genre-tag" data-genre="Sci-Fi">Sci-Fi</span>
+        <span class="genre-tag" data-genre="Thriller">Thriller</span>
+        <span class="genre-tag" data-genre="Romance">Romance</span>
+        <span class="genre-tag" data-genre="Documentary">Documentary</span>
+        <span class="genre-tag" data-genre="Animation">Animation</span>
+    </div>
+
+    <!-- Movie Grid -->
+    <section class="movies-section">
+        <h2 class="section-title" id="sectionTitle">All Movies</h2>
+        <div class="movie-grid" id="movieGrid"></div>
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="icon">🎥</div>
+            <h3>No movies yet</h3>
+            <p>Upload your first movie to get started!</p>
+        </div>
+    </section>
+
+    <!-- Player Modal -->
+    <div class="modal-overlay" id="playerModal">
+        <div class="player-container">
+            <button class="player-close" id="playerClose">&times;</button>
+            <video class="video-player" id="videoPlayer" controls></video>
+            <div class="player-info">
+                <span class="player-title" id="playerTitle"></span>
+                <div class="player-actions">
+                    <button class="btn-action" id="btnDownload">⬇ Download</button>
+                    <button class="btn-action delete" id="btnDelete">🗑 Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Modal -->
+    <div class="upload-modal" id="uploadModal">
+        <div class="upload-form">
+            <h2>🎬 Upload Movie</h2>
+            <form id="uploadForm">
+                <div class="form-group">
+                    <label>Movie File *</label>
+                    <div class="file-input-wrapper" id="movieFileWrapper">
+                        <p>📁 Click or drag to select movie file</p>
+                        <p class="selected-file" id="movieFileName"></p>
+                        <input type="file" id="movieFile" accept="video/*" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="movieTitle" placeholder="Movie title (auto-detected from filename)">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="movieDesc" placeholder="Brief description..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Genre</label>
+                    <select id="movieGenre">
+                        <option value="Uncategorized">Select genre...</option>
+                        <option value="Action">Action</option>
+                        <option value="Comedy">Comedy</option>
+                        <option value="Drama">Drama</option>
+                        <option value="Horror">Horror</option>
+                        <option value="Sci-Fi">Sci-Fi</option>
+                        <option value="Thriller">Thriller</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Documentary">Documentary</option>
+                        <option value="Animation">Animation</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Year</label>
+                    <input type="number" id="movieYear" placeholder="2024" min="1900" max="2030">
+                </div>
+                <div class="form-group">
+                    <label>Poster Image (optional)</label>
+                    <div class="file-input-wrapper">
+                        <p>🖼 Click to select poster image</p>
+                        <p class="selected-file" id="posterFileName"></p>
+                        <input type="file" id="posterFile" accept="image/*">
+                    </div>
+                </div>
+                <div class="upload-progress" id="uploadProgress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <p class="progress-text" id="progressText">Uploading... 0%</p>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" id="btnCancelUpload">Cancel</button>
+                    <button type="submit" class="btn-submit" id="btnSubmitUpload">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // State
+        let movies = [];
+        let currentMovie = null;
+        let currentFilter = 'all';
+
+        // Elements
+        const movieGrid = document.getElementById('movieGrid');
+        const emptyState = document.getElementById('emptyState');
+        const searchInput = document.getElementById('searchInput');
+        const playerModal = document.getElementById('playerModal');
+        const uploadModal = document.getElementById('uploadModal');
+        const videoPlayer = document.getElementById('videoPlayer');
+
+        // Load movies on page load
+        async function loadMovies() {
+            try {
+                const res = await fetch('/api/movies');
+                movies = await res.json();
+                renderMovies();
+            } catch (err) {
+                console.error('Failed to load movies:', err);
+            }
+        }
+
+        // Render movie grid
+        function renderMovies() {
+            let filtered = movies;
+
+            // Apply genre filter
+            if (currentFilter !== 'all') {
+                filtered = filtered.filter(m => m.genre === currentFilter);
+            }
+
+            // Apply search
+            const query = searchInput.value.toLowerCase();
+            if (query) {
+                filtered = filtered.filter(m =>
+                    m.title.toLowerCase().includes(query) ||
+                    m.description.toLowerCase().includes(query)
+                );
+            }
+
+            if (filtered.length === 0) {
+                movieGrid.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            movieGrid.innerHTML = filtered.map(movie => `
+                <div class="movie-card" onclick="openPlayer('${movie.id}')">
+                    <div class="movie-poster">
+                        ${movie.poster
+                            ? `<img src="/posters/${movie.poster}" alt="${movie.title}">`
+                            : `<span class="no-poster">🎬</span>`
+                        }
+                    </div>
+                    <div class="movie-info">
+                        <div class="movie-title">${movie.title}</div>
+                        <div class="movie-meta">
+                            <span class="movie-genre">${movie.genre}</span>
+                            <span class="movie-size">${formatSize(movie.size)}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Format file size
+        function formatSize(bytes) {
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            if (bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+            return (bytes / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
+        }
+
+        // Open player
+        function openPlayer(id) {
+            currentMovie = movies.find(m => m.id === id);
+            if (!currentMovie) return;
+
+            document.getElementById('playerTitle').textContent = currentMovie.title;
+            videoPlayer.src = `/stream/${id}`;
+            playerModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close player
+        document.getElementById('playerClose').addEventListener('click', () => {
+            videoPlayer.pause();
+            videoPlayer.src = '';
+            playerModal.classList.remove('active');
+            document.body.style.overflow = '';
+            currentMovie = null;
+        });
+
+        // Download
+        document.getElementById('btnDownload').addEventListener('click', () => {
+            if (currentMovie) {
+                window.location.href = `/download/${currentMovie.id}`;
+            }
+        });
+
+        // Delete
+        document.getElementById('btnDelete').addEventListener('click', async () => {
+            if (!currentMovie) return;
+            if (!confirm(`Delete "${currentMovie.title}"?`)) return;
+
+            try {
+                await fetch(`/api/movies/${currentMovie.id}`, { method: 'DELETE' });
+                videoPlayer.pause();
+                videoPlayer.src = '';
+                playerModal.classList.remove('active');
+                document.body.style.overflow = '';
+                showToast('Movie deleted');
+                loadMovies();
+            } catch (err) {
+                showToast('Failed to delete');
+            }
+        });
+
+        // Upload modal
+        document.getElementById('btnUpload').addEventListener('click', () => {
+            uploadModal.classList.add('active');
+        });
+
+        document.getElementById('btnCancelUpload').addEventListener('click', () => {
+            uploadModal.classList.remove('active');
+            document.getElementById('uploadForm').reset();
+            document.getElementById('movieFileName').textContent = '';
+            document.getElementById('posterFileName').textContent = '';
+        });
+
+        // File input labels
+        document.getElementById('movieFile').addEventListener('change', (e) => {
+            const name = e.target.files[0]?.name || '';
+            document.getElementById('movieFileName').textContent = name;
+            if (name && !document.getElementById('movieTitle').value) {
+                document.getElementById('movieTitle').value = name.replace(/\.[^/.]+$/, '');
+            }
+        });
+
+        document.getElementById('posterFile').addEventListener('change', (e) => {
+            document.getElementById('posterFileName').textContent = e.target.files[0]?.name || '';
+        });
+
+        // Upload form submit
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const movieFile = document.getElementById('movieFile').files[0];
+            if (!movieFile) return;
+
+            const formData = new FormData();
+            formData.append('movie', movieFile);
+            formData.append('title', document.getElementById('movieTitle').value || movieFile.name);
+            formData.append('description', document.getElementById('movieDesc').value);
+            formData.append('genre', document.getElementById('movieGenre').value);
+            formData.append('year', document.getElementById('movieYear').value);
+
+            const posterFile = document.getElementById('posterFile').files[0];
+            if (posterFile) formData.append('poster', posterFile);
+
+            const progressEl = document.getElementById('uploadProgress');
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            const submitBtn = document.getElementById('btnSubmitUpload');
+
+            progressEl.classList.add('active');
+            submitBtn.disabled = true;
+
+            try {
+                const xhr = new XMLHttpRequest();
+
+                xhr.upload.addEventListener('progress', (e) => {
+                    if (e.lengthComputable) {
+                        const pct = Math.round((e.loaded / e.total) * 100);
+                        progressFill.style.width = pct + '%';
+                        progressText.textContent = `Uploading... ${pct}% (${formatSize(e.loaded)} / ${formatSize(e.total)})`;
+                    }
+                });
+
+                xhr.addEventListener('load', () => {
+                    if (xhr.status === 201) {
+                        uploadModal.classList.remove('active');
+                        document.getElementById('uploadForm').reset();
+                        document.getElementById('movieFileName').textContent = '';
+                        document.getElementById('posterFileName').textContent = '';
+                        progressEl.classList.remove('active');
+                        progressFill.style.width = '0%';
+                        submitBtn.disabled = false;
+                        showToast('Movie uploaded successfully!');
+                        loadMovies();
+                    } else {
+                        throw new Error('Upload failed');
+                    }
+                });
+
+                xhr.addEventListener('error', () => {
+                    showToast('Upload failed. Try again.');
+                    progressEl.classList.remove('active');
+                    submitBtn.disabled = false;
+                });
+
+                xhr.open('POST', '/api/movies');
+                xhr.send(formData);
+            } catch (err) {
+                showToast('Upload failed. Try again.');
+                progressEl.classList.remove('active');
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Genre filter
+        document.getElementById('genreFilter').addEventListener('click', (e) => {
+            if (e.target.classList.contains('genre-tag')) {
+                document.querySelectorAll('.genre-tag').forEach(t => t.classList.remove('active'));
+                e.target.classList.add('active');
+                currentFilter = e.target.dataset.genre;
+                document.getElementById('sectionTitle').textContent =
+                    currentFilter === 'all' ? 'All Movies' : currentFilter;
+                renderMovies();
+            }
+        });
+
+        // Search
+        searchInput.addEventListener('input', renderMovies);
+
+        // Close modals on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (playerModal.classList.contains('active')) {
+                    videoPlayer.pause();
+                    videoPlayer.src = '';
+                    playerModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+                if (uploadModal.classList.contains('active')) {
+                    uploadModal.classList.remove('active');
+                }
+            }
+        });
+
+        // Toast notification
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // Init
+        loadMovies();
+    </script>
+</body>
+</html>

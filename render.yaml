@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: watchlist
+    runtime: node
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: PORT
+        value: 3000
+    disk:
+      name: movie-storage
+      mountPath: /app/movies
+      sizeGB: 1
